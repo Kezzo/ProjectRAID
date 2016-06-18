@@ -7,8 +7,8 @@
     {
         base.InitializeBalancingParameter();
 
-        m_MinHitDistance = BaseBalancing.HealerAutoHealActivationDistance;
-        m_ProjectileSpeed = BaseBalancing.HealerAutoHealProjectileSpeed;
+        m_MinHitDistance = BaseBalancing.m_HealerAutoHealCollisionDistance;
+        m_ProjectileSpeed = BaseBalancing.m_HealerAutoHealProjectileSpeed;
     }
 
     /// <summary>

@@ -55,6 +55,7 @@ public class BaseProjectile : MonoBehaviour
             {
                 float step = projectileSpeed * Time.deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, targetToFlyTowards.transform.position, step);
+                transform.LookAt(targetToFlyTowards.transform.position);
             }
 
             yield return null;

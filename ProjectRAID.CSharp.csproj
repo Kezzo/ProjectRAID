@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Controls\MageCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\RogueCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\TankCharacter.cs" />
+    <Compile Include="Assets\Scripts\Controls\TestBossCharacter.cs" />
     <Compile Include="Assets\Scripts\Skills\AutoHealProjectile.cs" />
     <Compile Include="Assets\Scripts\Skills\BaseProjectile.cs" />
   </ItemGroup>

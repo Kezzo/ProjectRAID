@@ -9,6 +9,9 @@ public class InputHandler : MonoBehaviour
     private LayerMask m_characterLayerMask;
 
     [SerializeField]
+    private LayerMask m_interactionLayerMask;
+
+    [SerializeField]
     private LayerMask m_worldLayerMask;
 
     [SerializeField]
@@ -52,7 +55,7 @@ public class InputHandler : MonoBehaviour
             {
                 RaycastHit selectionHit;
 
-                if (TrySelection(m_camera, m_characterLayerMask, out selectionHit))
+                if (TrySelection(m_camera, m_interactionLayerMask, out selectionHit))
                 {
                     BaseCharacter baseCharacter = selectionHit.transform.parent.gameObject.GetComponent<BaseCharacter>();
 

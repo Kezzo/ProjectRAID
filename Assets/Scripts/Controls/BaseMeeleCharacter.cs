@@ -1,15 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BaseMeeleCharacter : MonoBehaviour {
+public class BaseMeeleCharacter : BaseCharacter
+{
 
-	// Use this for initialization
-	void Start () {
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

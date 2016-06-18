@@ -1,4 +1,6 @@
-﻿public class HealerCharacter : BaseRangeCharacter
+﻿using System.Collections.Generic;
+
+public class HealerCharacter : BaseRangeCharacter
 {
     /// <summary>
     /// Initializes the balancing parameter.
@@ -7,7 +9,16 @@
     {
         base.InitializeBalancingParameter();
 
-        m_AutoInteractionCD = BaseBalancing.HealerAutoHealCD;
-        m_TimeSinceLastAutoInteraction = BaseBalancing.HealerAutoHealCD;
+        m_InteractionTarget = InteractionTarget.Heal;
+        m_PossibleInteractionTargets = new HashSet<InteractionTarget>
+        {
+            InteractionTarget.Mage,
+            InteractionTarget.Rogue,
+            InteractionTarget.Tank
+        };
+
+        m_AutoInteractionCD = BaseBalancing.m_HealerAutoHealCd;
+        m_TimeSinceLastAutoInteraction = BaseBalancing.m_HealerAutoHealCd;
+        
     }
 }
