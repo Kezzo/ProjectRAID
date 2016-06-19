@@ -1,4 +1,4 @@
-﻿public class AutoHealProjectile : BaseProjectile
+﻿public class MageAutoAttackProjectile : BaseProjectile
 {
     /// <summary>
     /// Initializes the parameters.
@@ -7,8 +7,8 @@
     {
         base.InitializeBalancingParameter();
 
-        m_MinHitDistance = BaseBalancing.m_HealerAutoHealCollisionDistance;
-        m_ProjectileSpeed = BaseBalancing.m_HealerAutoHealProjectileSpeed;
+        m_MinHitDistance = BaseBalancing.m_MageAutoAttackCollisionDistance;
+        m_ProjectileSpeed = BaseBalancing.m_MageAutoAttackProjectileSpeed;
     }
 
     /// <summary>
@@ -20,6 +20,6 @@
         base.OnTargetHit(hitTargetCharacter);
 
         Destroy(this.gameObject);
-        hitTargetCharacter.m_StatManagement.ChangeHealth(BaseBalancing.m_HealerAutoHealValue);
+        hitTargetCharacter.m_StatManagement.ChangeHealth(-BaseBalancing.m_MageAutoAttackProjectileDamage);
     }
 }

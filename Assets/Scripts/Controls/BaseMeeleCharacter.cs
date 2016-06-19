@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class BaseMeeleCharacter : BaseCharacter
 {
+    [Header("BaseMeele")]
+
     [SerializeField]
     private Animator m_animator;
 

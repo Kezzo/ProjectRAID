@@ -24,6 +24,18 @@ public class TestBossCharacter : BaseMeeleCharacter
 
         m_AutoInteractionCD = BaseBalancing.m_TestBossAutoAttackCd;
         m_AutoInteractionMaxRange = BaseBalancing.m_TestBossAutoAttackMaxRange;
+
+        m_StatManagement.Initialize(BaseBalancing.m_TestBossBaseMaxHealth);
     }
 
+    /// <summary>
+    /// Called when an automatic interaction was triggered.
+    /// </summary>
+    /// <param name="targetToInteractWith">The target to interact with.</param>
+    protected override void OnAutoInteractionTriggered(BaseCharacter targetToInteractWith)
+    {
+        base.OnAutoInteractionTriggered(targetToInteractWith);
+
+        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.m_TestBossAutoAttackDamage);
+    }
 }

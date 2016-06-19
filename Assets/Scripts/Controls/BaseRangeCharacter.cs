@@ -2,6 +2,8 @@
 
 public class BaseRangeCharacter : BaseCharacter
 {
+    [Header("BaseRange")]
+
     [SerializeField]
     private Transform m_autoInteractionProjectileStartPosition;
 

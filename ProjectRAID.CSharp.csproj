@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\BaseBalancing.cs" />
     <Compile Include="Assets\Scripts\ControllerContainer.cs" />
     <Compile Include="Assets\Scripts\Controls\Ai\BaseAi.cs" />
     <Compile Include="Assets\Scripts\Controls\BaseCharacter.cs" />
@@ -77,7 +76,12 @@
     <Compile Include="Assets\Scripts\Controls\TestBossCharacter.cs" />
     <Compile Include="Assets\Scripts\Skills\AutoHealProjectile.cs" />
     <Compile Include="Assets\Scripts\Skills\BaseProjectile.cs" />
+    <Compile Include="Assets\Scripts\Skills\MageAutoAttackProjectile.cs" />
+    <Compile Include="Assets\Scripts\StatManagement\BaseBalancing.cs" />
+    <Compile Include="Assets\Scripts\StatManagement\BaseStatManagement.cs" />
     <Compile Include="Assets\Scripts\TargetingController.cs" />
+    <Compile Include="Assets\Scripts\UI\Orient3dUiToCamera.cs" />
+    <Compile Include="Assets\Scripts\UI\UpdateHealthBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />

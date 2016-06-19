@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public enum InteractionTarget
@@ -16,6 +17,11 @@ public enum InteractionTarget
 
 public class BaseCharacter : MonoBehaviour
 {
+    [Header("Base")]
+
+    [SerializeField]
+    public BaseStatManagement m_StatManagement;
+
     [HideInInspector]
     public string m_CharacterId;
 

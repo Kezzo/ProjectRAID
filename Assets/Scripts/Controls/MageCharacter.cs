@@ -23,6 +23,7 @@ public class MageCharacter : BaseRangeCharacter
         m_AutoInteractionCD = BaseBalancing.m_MageAutoAttackCd;
         m_AutoInteractionMaxRange = BaseBalancing.m_MageAutoAttackMaxRange;
         m_TimeSinceLastAutoInteraction = BaseBalancing.m_MageAutoAttackCd;
-        
+
+        m_StatManagement.Initialize(BaseBalancing.m_MageBaseMaxHealth);
     }
 }

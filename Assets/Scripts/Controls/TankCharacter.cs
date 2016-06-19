@@ -24,5 +24,18 @@ public class TankCharacter : BaseMeeleCharacter
 
         m_AutoInteractionCD = BaseBalancing.m_TankAutoAttackCd;
         m_AutoInteractionMaxRange = BaseBalancing.m_TankAutoAttackMaxRange;
+
+        m_StatManagement.Initialize(BaseBalancing.m_TankBaseMaxHealth);
+    }
+
+    /// <summary>
+    /// Called when an automatic interaction was triggered.
+    /// </summary>
+    /// <param name="targetToInteractWith">The target to interact with.</param>
+    protected override void OnAutoInteractionTriggered(BaseCharacter targetToInteractWith)
+    {
+        base.OnAutoInteractionTriggered(targetToInteractWith);
+
+        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.m_TankAutoAttackDamage);
     }
 }

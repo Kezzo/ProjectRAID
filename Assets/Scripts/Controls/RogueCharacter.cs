@@ -24,5 +24,18 @@ public class RogueCharacter : BaseMeeleCharacter
 
         m_AutoInteractionCD = BaseBalancing.m_RogueAutoAttackCd;
         m_AutoInteractionMaxRange = BaseBalancing.m_RogueAutoAttackMaxRange;
+
+        m_StatManagement.Initialize(BaseBalancing.m_RogueBaseMaxHealth);
+    }
+
+    /// <summary>
+    /// Called when an automatic interaction was triggered.
+    /// </summary>
+    /// <param name="targetToInteractWith">The target to interact with.</param>
+    protected override void OnAutoInteractionTriggered(BaseCharacter targetToInteractWith)
+    {
+        base.OnAutoInteractionTriggered(targetToInteractWith);
+
+        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.m_RogueAutoAttackDamage);
     }
 }

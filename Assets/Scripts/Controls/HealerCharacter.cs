@@ -24,6 +24,7 @@ public class HealerCharacter : BaseRangeCharacter
         m_AutoInteractionCD = BaseBalancing.m_HealerAutoHealCd;
         m_AutoInteractionMaxRange = BaseBalancing.m_HealerAutoHealMaxRange;
         m_TimeSinceLastAutoInteraction = BaseBalancing.m_HealerAutoHealCd;
-        
+
+        m_StatManagement.Initialize(BaseBalancing.m_HealerBaseMaxHealth);
     }
 }
