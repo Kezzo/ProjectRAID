@@ -9,6 +9,8 @@ public class TestBossCharacter : BaseMeeleCharacter
     {
         base.InitializeBalancingParameter();
 
+        m_CharacterId = "TestBossCharacter";
+
         m_InteractionTarget = InteractionTarget.Boss;
         m_PossibleInteractionTargets = new HashSet<InteractionTarget>
         {
@@ -18,8 +20,10 @@ public class TestBossCharacter : BaseMeeleCharacter
             InteractionTarget.Heal
         };
 
-        m_AutoInteractionCD = BaseBalancing.m_MageAutoAttackCd;
-        m_TimeSinceLastAutoInteraction = BaseBalancing.m_MageAutoAttackCd;
+        m_MovementSpeed = BaseBalancing.m_EnemyMovementSpeed;
+
+        m_AutoInteractionCD = BaseBalancing.m_TestBossAutoAttackCd;
+        m_AutoInteractionMaxRange = BaseBalancing.m_TestBossAutoAttackMaxRange;
     }
 
 }

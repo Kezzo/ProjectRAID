@@ -9,6 +9,8 @@ public class TankCharacter : BaseMeeleCharacter
     {
         base.InitializeBalancingParameter();
 
+        m_CharacterId = "TankCharacter";
+
         //m_AutoInteractionCD = BaseBalancing.m_MageAutoAttackCd;
         //m_TimeSinceLastAutoInteraction = BaseBalancing.m_MageAutoAttackCd;
         m_InteractionTarget = InteractionTarget.Tank;

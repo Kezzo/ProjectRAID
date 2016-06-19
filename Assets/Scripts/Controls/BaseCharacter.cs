@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum InteractionTarget
 {
+    None,
     Tank,
     Rogue,
     Heal,
@@ -15,6 +16,9 @@ public enum InteractionTarget
 
 public class BaseCharacter : MonoBehaviour
 {
+    [HideInInspector]
+    public string m_CharacterId;
+
     private Coroutine m_currentMovementCoroutine;
     protected Coroutine m_CurrentInteractionCoroutine;
 
@@ -30,6 +34,8 @@ public class BaseCharacter : MonoBehaviour
     void Awake()
     {
         InitializeBalancingParameter();
+
+        ControllerContainer.TargetingController.RegisterInTargetCache(m_CharacterId, this);
     }
 
     void Update()

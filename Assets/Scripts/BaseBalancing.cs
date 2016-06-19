@@ -3,6 +3,8 @@
     //TODO: Add subclasses for different balancing categories.
     //public static float m_CharacterSpeed = 5f; obsolete
 
+    public static float m_TargetChangeByThreatDifference = 1.2f;
+
     #region Tank
 
     public static float m_TankMovementSpeed = 8f;
@@ -36,6 +38,19 @@
     public static float m_MageAutoAttackMaxRange = 17f;
     public static float m_MageAutoAttackCollisionDistance = 0.5f;
     public static float m_MageAutoAttackProjectileSpeed = 7f;
+
+    #endregion
+
+    #region Enemies
+
+    public static float m_EnemyMovementSpeed = 3f;
+
+    #region TestBoss
+
+    public static float m_TestBossAutoAttackCd = 1f;
+    public static float m_TestBossAutoAttackMaxRange = 5f;
+
+    #endregion
 
     #endregion
 }

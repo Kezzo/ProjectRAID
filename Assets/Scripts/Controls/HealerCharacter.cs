@@ -9,6 +9,8 @@ public class HealerCharacter : BaseRangeCharacter
     {
         base.InitializeBalancingParameter();
 
+        m_CharacterId = "HealerCharacter";
+
         m_InteractionTarget = InteractionTarget.Heal;
         m_PossibleInteractionTargets = new HashSet<InteractionTarget>
         {

@@ -9,6 +9,8 @@ public class MageCharacter : BaseRangeCharacter
     {
         base.InitializeBalancingParameter();
 
+        m_CharacterId = "MageCharacter";
+
         m_InteractionTarget = InteractionTarget.Mage;
         m_PossibleInteractionTargets = new HashSet<InteractionTarget>
         {

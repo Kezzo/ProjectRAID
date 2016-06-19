@@ -9,6 +9,8 @@ public class RogueCharacter : BaseMeeleCharacter
     {
         base.InitializeBalancingParameter();
 
+        m_CharacterId = "RogueCharacter";
+
         //m_AutoInteractionCD = BaseBalancing.m_MageAutoAttackCd;
         //m_TimeSinceLastAutoInteraction = BaseBalancing.m_MageAutoAttackCd;
         m_InteractionTarget = InteractionTarget.Rogue;
