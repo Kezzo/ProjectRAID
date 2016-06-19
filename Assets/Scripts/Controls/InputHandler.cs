@@ -66,7 +66,7 @@ public class InputHandler : MonoBehaviour
                 }
                 else if (TrySelection(m_camera, m_worldLayerMask, out selectionHit))
                 {
-                    m_currentlySelectedCharacter.MoveTo(selectionHit.point);
+                    m_currentlySelectedCharacter.MoveTo(selectionHit.point, 1f);
                 }
             }
         }

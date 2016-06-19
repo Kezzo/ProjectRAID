@@ -16,7 +16,10 @@ public class MageCharacter : BaseRangeCharacter
             InteractionTarget.Add
         };
 
+        m_MovementSpeed = BaseBalancing.m_MageMovementSpeed;
+
         m_AutoInteractionCD = BaseBalancing.m_MageAutoAttackCd;
+        m_AutoInteractionMaxRange = BaseBalancing.m_MageAutoAttackMaxRange;
         m_TimeSinceLastAutoInteraction = BaseBalancing.m_MageAutoAttackCd;
         
     }

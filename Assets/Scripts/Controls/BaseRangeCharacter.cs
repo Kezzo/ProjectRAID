@@ -12,9 +12,9 @@ public class BaseRangeCharacter : BaseCharacter
     /// Called when the automatic interaction happened.
     /// </summary>
     /// <param name="targetToInteractWith"></param>
-    protected override void OnAutoInteraction(BaseCharacter targetToInteractWith)
+    protected override void OnAutoInteractionTriggered(BaseCharacter targetToInteractWith)
     {
-        base.OnAutoInteraction(targetToInteractWith);
+        base.OnAutoInteractionTriggered(targetToInteractWith);
 
         GameObject projectileGameobject = Instantiate(m_autoInteractionProjectilePrefab, m_autoInteractionProjectileStartPosition.position, Quaternion.identity) as GameObject;
 

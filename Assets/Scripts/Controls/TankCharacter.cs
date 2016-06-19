@@ -17,5 +17,10 @@ public class TankCharacter : BaseMeeleCharacter
             InteractionTarget.Boss,
             InteractionTarget.Add
         };
+
+        m_MovementSpeed = BaseBalancing.m_TankMovementSpeed;
+
+        m_AutoInteractionCD = BaseBalancing.m_TankAutoAttackCd;
+        m_AutoInteractionMaxRange = BaseBalancing.m_TankAutoAttackMaxRange;
     }
 }

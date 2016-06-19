@@ -17,7 +17,10 @@ public class HealerCharacter : BaseRangeCharacter
             InteractionTarget.Tank
         };
 
+        m_MovementSpeed = BaseBalancing.m_HealerMovementSpeed;
+
         m_AutoInteractionCD = BaseBalancing.m_HealerAutoHealCd;
+        m_AutoInteractionMaxRange = BaseBalancing.m_HealerAutoHealMaxRange;
         m_TimeSinceLastAutoInteraction = BaseBalancing.m_HealerAutoHealCd;
         
     }

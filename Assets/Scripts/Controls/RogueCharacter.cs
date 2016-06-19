@@ -17,5 +17,10 @@ public class RogueCharacter : BaseMeeleCharacter
             InteractionTarget.Boss,
             InteractionTarget.Add
         };
+
+        m_MovementSpeed = BaseBalancing.m_RogueMovementSpeed;
+
+        m_AutoInteractionCD = BaseBalancing.m_RogueAutoAttackCd;
+        m_AutoInteractionMaxRange = BaseBalancing.m_RogueAutoAttackMaxRange;
     }
 }
