@@ -37,5 +37,12 @@ public class RogueCharacter : BaseMeeleCharacter
         base.OnAutoInteractionTriggered(targetToInteractWith);
 
         targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.m_RogueAutoAttackDamage);
+
+        BaseAi targetAi = targetToInteractWith.GetComponent<BaseAi>();
+
+        if (targetAi != null)
+        {
+            targetAi.ChangeThreat(this, (int)(BaseBalancing.m_RogueAutoAttackDamage * BaseBalancing.m_RogueAutoAttackThreatModifier));
+        }
     }
 }

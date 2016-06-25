@@ -8,7 +8,7 @@ public class Orient3dUiToCamera : MonoBehaviour
     private Camera m_cameraToOrientTo;
 
 	// Update is called once per frame
-	void Update ()
+	void LateUpdate ()
     {
         Vector3 v = m_cameraToOrientTo.transform.position - transform.position;
         v.x = v.z = 0.0f;

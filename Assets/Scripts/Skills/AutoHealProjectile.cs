@@ -21,5 +21,14 @@
 
         Destroy(this.gameObject);
         hitTargetCharacter.m_StatManagement.ChangeHealth(BaseBalancing.m_HealerAutoHealValue);
+
+
+        //TODO: Implement heal aggro -> surrounding mobs
+        //BaseAi targetAi = hitTargetCharacter.GetComponent<BaseAi>();
+
+        //if (targetAi != null)
+        //{
+        //    targetAi.ChangeThreat(ProjectileCaster, (int)(BaseBalancing.m_HealerAutoHealValue * BaseBalancing.m_HealerAutoHealThreatModifier));
+        //}
     }
 }

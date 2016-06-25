@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,80 +7,104 @@ public class BaseAi : MonoBehaviour
     [SerializeField]
     private BaseCharacter m_characterToControl;
 
-    private readonly Dictionary<string, double> m_currentThreat = new Dictionary<string, double>();
-    private BaseCharacter m_currentTarget;
-    private TargetingController m_targeting;
+    [SerializeField]
+    private List<ThreatElement> m_currentThreatList = new List<ThreatElement>();
+
+    [Serializable]
+    private class ThreatElement
+    {
+        public int m_CurrentThreatWithThisAi;
+        public BaseCharacter m_BaseCharacter;
+
+        public ThreatElement(BaseCharacter baseCharacter, int currentThreatWithThisAi)
+        {
+            m_CurrentThreatWithThisAi = currentThreatWithThisAi;
+            m_BaseCharacter = baseCharacter;
+        }
+    }
+
+    private ThreatElement m_currentTarget;
 
     void Start()
     {
-        StartAiLoop();
-    }
-
-    /// <summary>
-    /// Starts the ai loop.
-    /// </summary>
-    public void StartAiLoop()
-    {
-        m_targeting = ControllerContainer.TargetingController;
-
-        StartCoroutine(BaseAiLoop());
+        AttackClosestTarget();
     }
 
     /// <summary>
     /// Bases the ai loop.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator BaseAiLoop()
+    private void AttackClosestTarget()
     {
-        if (m_currentThreat.Count < 1)
+        BaseCharacter targetToAttack = ControllerContainer.TargetingController.GetClosestCharacter(m_characterToControl);
+
+        if (targetToAttack != null)
         {
-            BaseCharacter targetToAttack = m_targeting.GetClosestCharacter(m_characterToControl);
+            ChangeThreat(targetToAttack, 1);
+        }
+    }
 
-            if (targetToAttack != null)
+    /// <summary>
+    /// Resorts the threat list.
+    /// </summary>
+    private void ResortThreatList()
+    {
+        m_currentThreatList.Sort((threatElement1, threatElement2) =>
+                threatElement2.m_CurrentThreatWithThisAi.CompareTo(threatElement1.m_CurrentThreatWithThisAi));
+    }
+
+    /// <summary>
+    /// Called when the threat from someone changed for this ai.
+    /// </summary>
+    public void ChangeThreat(BaseCharacter causer, int threatChange)
+    {
+        ThreatElement existingThreatElement = m_currentThreatList.Find(threatElement => 
+            threatElement.m_BaseCharacter.m_CharacterId == causer.m_CharacterId);
+
+        if (existingThreatElement != null)
+        {
+            existingThreatElement.m_CurrentThreatWithThisAi += threatChange;
+        }
+        else
+        {
+            // One cannot decrease threat, with no threat registered. No preemptive threat reduction.
+            m_currentThreatList.Add(new ThreatElement(causer, Math.Max(0, threatChange)));
+        }
+
+        if (m_currentThreatList.Count > 1)
+        {
+            ResortThreatList();
+
+            ThreatElement newTarget = null;
+
+            if (TargetChangeNecessary(out newTarget))
             {
-                m_currentTarget = targetToAttack;
-                m_currentThreat.Add(targetToAttack.m_CharacterId, 1.0);
-
-                m_characterToControl.OnInteraction(targetToAttack);
+                m_currentTarget = newTarget;
+                m_characterToControl.OnInteraction(m_currentTarget.m_BaseCharacter);
             }
         }
         else
         {
-            var targetWithHighestThreat = GetCurrentTargetWithHighestThreat();
-
-            if (!string.Equals(targetWithHighestThreat, m_currentTarget.m_CharacterId))
-            {
-                BaseCharacter characterToSwitchTo = m_targeting.GetCharacterById(targetWithHighestThreat);
-
-                if (characterToSwitchTo != null)
-                {
-                    m_currentTarget = characterToSwitchTo;
-                    m_characterToControl.OnInteraction(characterToSwitchTo);
-                }
-            }
+            m_currentTarget = m_currentThreatList[0];
+            m_characterToControl.OnInteraction(m_currentTarget.m_BaseCharacter);
         }
-
-        yield return null;
     }
 
     /// <summary>
     /// Determines whether the current target has highest threat.
     /// </summary>
+    /// <param name="newTarget">The new target.</param>
     /// <returns></returns>
-    private string GetCurrentTargetWithHighestThreat()
+    private bool TargetChangeNecessary(out ThreatElement newTarget)
     {
-        double currentThreat = 0.0;
-
-        m_currentThreat.TryGetValue(m_currentTarget.m_CharacterId, out currentThreat);
-
-        foreach (var threatTarget in m_currentThreat)
+        if (m_currentThreatList.Count > 1 && !string.Equals(m_currentThreatList[0].m_BaseCharacter.m_CharacterId, m_currentTarget.m_BaseCharacter.m_CharacterId) &&
+            m_currentThreatList[0].m_CurrentThreatWithThisAi > (m_currentTarget.m_CurrentThreatWithThisAi * BaseBalancing.m_TargetChangeByThreatDifference))
         {
-            if (!string.Equals(threatTarget.Key, m_currentTarget.m_CharacterId) && threatTarget.Value > currentThreat * BaseBalancing.m_TargetChangeByThreatDifference)
-            {
-                return threatTarget.Key;
-            }
+            newTarget = m_currentThreatList[0];
+            return true;
         }
 
-        return m_currentTarget.m_CharacterId;
+        newTarget = null;
+        return false;
     }
 }

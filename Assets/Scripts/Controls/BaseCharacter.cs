@@ -73,7 +73,7 @@ public class BaseCharacter : MonoBehaviour
     /// <param name="interactionTarget">The interaction target.</param>
     public virtual void OnInteraction(BaseCharacter interactionTarget)
     {
-        Debug.Log(string.Format("'{0}' is interacting with '{1}'", name, interactionTarget.name));
+        //Debug.Log(string.Format("'{0}' is interacting with '{1}'", name, interactionTarget.name));
 
         if (Vector3.Distance(transform.position, interactionTarget.transform.position) > m_AutoInteractionMaxRange)
         {
@@ -91,7 +91,7 @@ public class BaseCharacter : MonoBehaviour
     /// <param name="characterToInteractWith">The character to heal.</param>
     private void StartAutoInteraction(BaseCharacter characterToInteractWith)
     {
-        Debug.Log(string.Format("StartAutoInteraction: '{0}' with '{1}'", this.name, characterToInteractWith.name));
+        //Debug.Log(string.Format("StartAutoInteraction: '{0}' with '{1}'", this.name, characterToInteractWith.name));
 
         StopMovement();
         LookAt(characterToInteractWith.transform.position);
@@ -122,7 +122,7 @@ public class BaseCharacter : MonoBehaviour
     /// <param name="targetToInteractWith">The target to interact with.</param>
     protected virtual void OnAutoInteractionTriggered(BaseCharacter targetToInteractWith)
     {
-        Debug.Log(string.Format("OnAutoInteractionTriggered from '{0}' on '{1}'", this.name, targetToInteractWith.name));
+        //Debug.Log(string.Format("OnAutoInteractionTriggered from '{0}' on '{1}'", this.name, targetToInteractWith.name));
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ public class BaseCharacter : MonoBehaviour
             }
             else
             {
-                Debug.Log(string.Format("Target '{0}' from '{1}' ran out of Range", targetToInteractWith.name, this.name));
+                //Debug.Log(string.Format("Target '{0}' from '{1}' ran out of Range", targetToInteractWith.name, this.name));
 
                 MoveTo(targetToInteractWith, autoInteractionMaxRange,
                     () => StartAutoInteraction(targetToInteractWith));
@@ -172,7 +172,7 @@ public class BaseCharacter : MonoBehaviour
     /// <param name="onTargetReached">The on target reached.</param>
     public void MoveTo(Vector3 worldPositionToMoveTo, float targetReachedMinDistance, Action onTargetReached = null)
     {
-        Debug.Log(string.Format("MoveTo '{0}' moves to '{1}'", this.name, worldPositionToMoveTo));
+        //Debug.Log(string.Format("MoveTo '{0}' moves to '{1}'", this.name, worldPositionToMoveTo));
 
         //Debug.Log("Character: "+this.name+" moves to "+ worldPositionToMoveTo);
 
@@ -193,7 +193,7 @@ public class BaseCharacter : MonoBehaviour
     /// <param name="onTargetReached">The on target reached.</param>
     public void MoveTo(BaseCharacter characterToMoveTo, float targetReachedMinDistance, Action onTargetReached = null)
     {
-        Debug.Log(string.Format("MoveTo '{0}' moves to '{1}'", this.name, characterToMoveTo.transform.position));
+        //Debug.Log(string.Format("MoveTo '{0}' moves to '{1}'", this.name, characterToMoveTo.transform.position));
 
         //Debug.Log("Character: "+this.name+" moves to "+ worldPositionToMoveTo);
 

@@ -27,7 +27,7 @@ public class BaseRangeCharacter : BaseCharacter
             if (projectileScript != null)
             {
                 projectileScript.InitializeBalancingParameter();
-                projectileScript.FlyTowardsTarget(targetToInteractWith);
+                projectileScript.FlyTowardsTarget(targetToInteractWith, this);
             }
         }
     }

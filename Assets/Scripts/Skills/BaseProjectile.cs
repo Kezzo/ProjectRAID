@@ -6,6 +6,12 @@ public class BaseProjectile : MonoBehaviour
     protected float m_MinHitDistance = 0f;
     protected float m_ProjectileSpeed = 0f;
 
+    private BaseCharacter m_projectileCaster;
+    public BaseCharacter ProjectileCaster
+    {
+        get { return m_projectileCaster; }
+    }
+
     /// <summary>
     /// Initializes the parameters.
     /// </summary>
@@ -27,8 +33,11 @@ public class BaseProjectile : MonoBehaviour
     /// Flies the towards target.
     /// </summary>
     /// <param name="targetToFlyTowards">The target to fly towards.</param>
-    public void FlyTowardsTarget(BaseCharacter targetToFlyTowards)
+    /// <param name="projectileCaster">The projectile caster.</param>
+    public void FlyTowardsTarget(BaseCharacter targetToFlyTowards, BaseCharacter projectileCaster)
     {
+        m_projectileCaster = projectileCaster;
+
         StartCoroutine(FlyTowardsTargetCoroutine(targetToFlyTowards, m_MinHitDistance, m_ProjectileSpeed));
     }
 

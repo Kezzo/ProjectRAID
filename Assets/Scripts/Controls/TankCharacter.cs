@@ -35,7 +35,14 @@ public class TankCharacter : BaseMeeleCharacter
     protected override void OnAutoInteractionTriggered(BaseCharacter targetToInteractWith)
     {
         base.OnAutoInteractionTriggered(targetToInteractWith);
-
+         
         targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.m_TankAutoAttackDamage);
+
+        BaseAi targetAi = targetToInteractWith.GetComponent<BaseAi>();
+
+        if (targetAi != null)
+        {
+            targetAi.ChangeThreat(this, (int)(BaseBalancing.m_TankAutoAttackDamage*BaseBalancing.m_TankAutoAttackThreatModifier));
+        }
     }
 }

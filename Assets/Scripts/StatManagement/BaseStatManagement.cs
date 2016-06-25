@@ -24,7 +24,7 @@ public class BaseStatManagement : MonoBehaviour
     /// Changes the health.
     /// </summary>
     /// <param name="value">The value.</param>
-    public void ChangeHealth(int value)
+    public virtual void ChangeHealth(int value)
     {
         m_health += value;
 

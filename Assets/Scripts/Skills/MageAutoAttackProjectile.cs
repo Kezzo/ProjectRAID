@@ -21,5 +21,12 @@
 
         Destroy(this.gameObject);
         hitTargetCharacter.m_StatManagement.ChangeHealth(-BaseBalancing.m_MageAutoAttackProjectileDamage);
+
+        BaseAi targetAi = hitTargetCharacter.GetComponent<BaseAi>();
+
+        if (targetAi != null)
+        {
+            targetAi.ChangeThreat(ProjectileCaster, (int)(BaseBalancing.m_MageAutoAttackProjectileDamage * BaseBalancing.m_MageAutoAttackProjectileThreatModifier));
+        }
     }
 }
