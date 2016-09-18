@@ -3,25 +3,17 @@ using UnityEngine;
 
 public class TargetingController
 {
-    private readonly Dictionary<string, BaseCharacter> m_targetCache = new Dictionary<string, BaseCharacter>();
+    private readonly List<BaseCharacter> m_targetCache = new List<BaseCharacter>();
 
     #region target cache manipulation
 
     /// <summary>
     /// Registers the in target cache.
     /// </summary>
-    /// <param name="characterId">The mob identifier.</param>
     /// <param name="baseCharacter">The base character.</param>
-    public void RegisterInTargetCache(string characterId, BaseCharacter baseCharacter)
+    public void RegisterInTargetCache(BaseCharacter baseCharacter)
     {
-        if (m_targetCache.ContainsKey(characterId))
-        {
-            m_targetCache[characterId] = baseCharacter;
-        }
-        else
-        {
-            m_targetCache.Add(characterId, baseCharacter);
-        }
+        m_targetCache.Add(baseCharacter);   
     }
 
     /// <summary>
@@ -31,11 +23,7 @@ public class TargetingController
     /// <returns></returns>
     public BaseCharacter GetCharacterById(string characterId)
     {
-        BaseCharacter character = null;
-
-        m_targetCache.TryGetValue(characterId, out character);
-
-        return character;
+        return m_targetCache.Find(character => character.m_CharacterId == characterId);
     }
 
     #endregion
@@ -43,19 +31,33 @@ public class TargetingController
     /// <summary>
     /// Gets the closest character.
     /// </summary>
-    /// <param name="askingPostion">The asking postion.</param>
-    /// <param name="ignoreCharacterId">The ignore character identifier.</param>
+    /// <param name="askingPosition">The asking position.</param>
+    /// <param name="interactionTargetsToIgnore">The interaction targets to ignore.</param>
+    /// <param name="includeDead">if set to <c>true</c> [include dead].</param>
     /// <returns></returns>
-    public BaseCharacter GetClosestCharacter(Vector3 askingPostion, string ignoreCharacterId = null)
+    public BaseCharacter GetClosestCharacter(Vector3 askingPosition, HashSet<InteractionTarget> interactionTargetsToIgnore = null, bool includeDead = false)
     {
         BaseCharacter closestCharacter = null;
 
-        foreach (var target in m_targetCache)
+        for (int targetIndex = 0; targetIndex < m_targetCache.Count; targetIndex++)
         {
-            if ((!string.IsNullOrEmpty(ignoreCharacterId) && !string.Equals(target.Key, ignoreCharacterId) &&
-                (closestCharacter == null || Vector3.Distance(askingPostion, target.Value.transform.position) < Vector3.Distance(askingPostion, closestCharacter.transform.position))))
+            var target = m_targetCache[targetIndex];
+
+            if (!includeDead && target.m_StatManagement.IsDead)
             {
-                closestCharacter = target.Value;
+                continue;
+            }
+
+            if (interactionTargetsToIgnore != null && (interactionTargetsToIgnore.Contains(target.InteractionTarget)))
+            {
+                continue;
+            }
+                
+            if (closestCharacter == null || 
+                Vector3.Distance(askingPosition, target.transform.position) <
+                Vector3.Distance(askingPosition, closestCharacter.transform.position))
+            {
+                closestCharacter = target;
             }
         }
 
@@ -66,9 +68,38 @@ public class TargetingController
     /// Gets the closest character.
     /// </summary>
     /// <param name="askingCharacter">The asking character.</param>
+    /// <param name="includeDead">if set to <c>true</c> [include dead].</param>
     /// <returns></returns>
-    public BaseCharacter GetClosestCharacter(BaseCharacter askingCharacter)
+    public BaseCharacter GetClosestCharacter(BaseCharacter askingCharacter, bool includeDead = false)
     {
-        return GetClosestCharacter(askingCharacter.transform.position, askingCharacter.m_CharacterId);
+        return GetClosestCharacter(askingCharacter.transform.position, new HashSet<InteractionTarget>{askingCharacter.InteractionTarget}, includeDead);
+    }
+
+    /// <summary>
+    /// Gets the characters with interaction target.
+    /// </summary>
+    /// <param name="interactionTargetsToReturn">The interaction targets to return.</param>
+    /// <param name="includeDead">if set to <c>true</c> [include dead].</param>
+    /// <returns></returns>
+    public List<BaseCharacter> GetCharactersWithInteractionTarget(HashSet<InteractionTarget> interactionTargetsToReturn, bool includeDead = false)
+    {
+        List<BaseCharacter> charactersWithInteractionTarget = new List<BaseCharacter>();
+
+        for (int targetIndex = 0; targetIndex < m_targetCache.Count; targetIndex++)
+        {
+            var target = m_targetCache[targetIndex];
+
+            if (!includeDead && target.m_StatManagement.IsDead)
+            {
+                continue;
+            }
+
+            if (interactionTargetsToReturn.Contains(target.InteractionTarget))
+            {
+                charactersWithInteractionTarget.Add(target);
+            }
+        }
+
+        return charactersWithInteractionTarget;
     }
 }

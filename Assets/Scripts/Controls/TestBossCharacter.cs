@@ -22,7 +22,7 @@ public class TestBossCharacter : BaseMeeleCharacter
 
         m_MovementSpeed = BaseBalancing.m_EnemyMovementSpeed;
 
-        m_AutoInteractionCD = BaseBalancing.m_TestBossAutoAttackCd;
+        m_AutoInteractionCd = BaseBalancing.m_TestBossAutoAttackCd;
         m_AutoInteractionMaxRange = BaseBalancing.m_TestBossAutoAttackMaxRange;
 
         m_StatManagement.Initialize(BaseBalancing.m_TestBossBaseMaxHealth);

@@ -1,4 +1,6 @@
-﻿public class AutoHealProjectile : BaseProjectile
+﻿using System.Collections.Generic;
+
+public class AutoHealProjectile : BaseProjectile
 {
     /// <summary>
     /// Initializes the parameters.
@@ -22,13 +24,20 @@
         Destroy(this.gameObject);
         hitTargetCharacter.m_StatManagement.ChangeHealth(BaseBalancing.m_HealerAutoHealValue);
 
+        var threatTargets = ControllerContainer.TargetingController.GetCharactersWithInteractionTarget(new HashSet<InteractionTarget>
+        {
+            InteractionTarget.Boss,
+            InteractionTarget.Add
+        });
 
-        //TODO: Implement heal aggro -> surrounding mobs
-        //BaseAi targetAi = hitTargetCharacter.GetComponent<BaseAi>();
+        for (int targetIndex = 0; targetIndex < threatTargets.Count; targetIndex++)
+        {
+            BaseAi targetAi = threatTargets[targetIndex].GetComponent<BaseAi>();
 
-        //if (targetAi != null)
-        //{
-        //    targetAi.ChangeThreat(ProjectileCaster, (int)(BaseBalancing.m_HealerAutoHealValue * BaseBalancing.m_HealerAutoHealThreatModifier));
-        //}
+            if (targetAi != null)
+            {
+                targetAi.ChangeThreat(ProjectileCaster, (int)(BaseBalancing.m_HealerAutoHealValue * BaseBalancing.m_HealerAutoHealThreatModifier));
+            }
+        }
     }
 }

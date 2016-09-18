@@ -41,7 +41,7 @@
     public static float m_HealerAutoHealProjectileSpeed = 15f;
 
     public static int m_HealerAutoHealValue = 10;
-    public static float m_HealerAutoHealThreatModifier = 1.0f;
+    public static float m_HealerAutoHealThreatModifier = 0.2f;
 
     public static int m_HealerBaseMaxHealth = 40;
 
@@ -74,6 +74,17 @@
     public static int m_TestBossAutoAttackDamage = 15;
 
     public static int m_TestBossBaseMaxHealth = 1000;
+
+    #region Skill1
+
+    public static int m_TestBossSkill1Damage = 10;
+    public static float m_TestBossSkill1Cd = 10f;
+    public static float m_TestBossSkill1Duration = 2f;
+
+    public static float m_TestBossSkill1CollisionDistance = 0.5f;
+    public static float m_TestBossSkill1ProjectileSpeed = 20f;
+
+    #endregion
 
     #endregion
 

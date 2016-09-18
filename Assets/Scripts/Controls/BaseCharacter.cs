@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using UnityEngine;
 
 public enum InteractionTarget
@@ -25,28 +24,60 @@ public class BaseCharacter : MonoBehaviour
     [HideInInspector]
     public string m_CharacterId;
 
+    [SerializeField]
+    protected Animator m_animator;
+
     private Coroutine m_currentMovementCoroutine;
     protected Coroutine m_CurrentInteractionCoroutine;
 
     protected InteractionTarget m_InteractionTarget;
+    public InteractionTarget InteractionTarget
+    {
+        get { return m_InteractionTarget; }
+    }
+
     protected HashSet<InteractionTarget> m_PossibleInteractionTargets;
+    public HashSet<InteractionTarget> PossibleInteractionTargets
+    {
+        get { return m_PossibleInteractionTargets; }
+    }
 
     protected float m_TimeSinceLastAutoInteraction;
 
     protected float m_MovementSpeed;
     protected float m_AutoInteractionMaxRange;
-    protected float m_AutoInteractionCD;
+    protected float m_AutoInteractionCd;
 
     void Awake()
     {
         InitializeBalancingParameter();
 
-        ControllerContainer.TargetingController.RegisterInTargetCache(m_CharacterId, this);
+        ControllerContainer.TargetingController.RegisterInTargetCache(this);
+    }
+
+    void Start()
+    {
+        m_StatManagement.m_OnDead += HandleDeath;
     }
 
     void Update()
     {
         m_TimeSinceLastAutoInteraction += Time.deltaTime;
+    }
+
+    /// <summary>
+    /// Sets the layer to dead on death.
+    /// </summary>
+    private void HandleDeath()
+    {
+        this.gameObject.layer = LayerMask.NameToLayer("Dead");
+
+        if (m_animator != null)
+        {
+            //TODO: Play death animation here.
+            m_animator.enabled = false;
+            m_animator.enabled = true;
+        } 
     }
 
     /// <summary>
@@ -101,14 +132,14 @@ public class BaseCharacter : MonoBehaviour
             StopCoroutine(m_CurrentInteractionCoroutine);
         }
 
-        m_CurrentInteractionCoroutine = StartCoroutine(AutoInteractionCoroutine(characterToInteractWith, m_AutoInteractionMaxRange, m_AutoInteractionCD));
+        m_CurrentInteractionCoroutine = StartCoroutine(AutoInteractionCoroutine(characterToInteractWith, m_AutoInteractionMaxRange, m_AutoInteractionCd));
     }
 
 
     /// <summary>
     /// Stops the interaction.
     /// </summary>
-    private void StopInteraction()
+    public void StopInteraction()
     {
         if (m_CurrentInteractionCoroutine != null)
         {
@@ -136,6 +167,16 @@ public class BaseCharacter : MonoBehaviour
     {
         while (true)
         {
+            if (m_StatManagement.IsDead || targetToInteractWith.m_StatManagement.IsDead)
+            {
+                if (m_animator != null)
+                {
+                    m_animator.SetBool("Attack", false);
+                }
+
+                yield break;
+            }
+
             LookAt(targetToInteractWith.transform.position);
 
             if (Vector3.Distance(transform.position, targetToInteractWith.transform.position) <= autoInteractionMaxRange)
@@ -230,7 +271,7 @@ public class BaseCharacter : MonoBehaviour
         {
             bool reachedTarget = DoMovementStep(movementTarget, targetReachedMinDistance, onTargetReached);
 
-            if (reachedTarget)
+            if (reachedTarget || m_StatManagement.IsDead)
             {
                 yield break;
             }
@@ -252,7 +293,7 @@ public class BaseCharacter : MonoBehaviour
         {
             bool reachedTarget = DoMovementStep(characterToFollow.transform.position, targetReachedMinDistance, onTargetReached);
 
-            if (reachedTarget)
+            if (reachedTarget || m_StatManagement.IsDead || characterToFollow.m_StatManagement.IsDead)
             {
                 yield break;
             }
@@ -299,6 +340,10 @@ public class BaseCharacter : MonoBehaviour
     /// <param name="postitionToLookAt">The postition to look at.</param>
     private void LookAt(Vector3 postitionToLookAt)
     {
+        //To not turn to yourself, that's pretty hard
+        if (this.transform.position == postitionToLookAt)
+            return;
+
         transform.rotation = Quaternion.LookRotation((new Vector3(postitionToLookAt.x, 0f, postitionToLookAt.z) - 
             (new Vector3(transform.position.x, 0f, transform.position.z))).normalized);
     }

@@ -5,10 +5,15 @@ public class BaseStatManagement : MonoBehaviour
 {
     [SerializeField]
     private int m_health;
+    public int Health { get { return m_health; } }
+
+    public bool IsDead { get { return m_health <= 0; } }
 
     private int m_maxHealth = 0;
 
     public Action<int, int> m_OnHealthChange;
+
+    public Action m_OnDead;
 
     /// <summary>
     /// Sets the maximum health.
@@ -30,23 +35,14 @@ public class BaseStatManagement : MonoBehaviour
 
         m_health = Mathf.Clamp(m_health, 0, m_maxHealth);
 
-        if (m_health <= 0)
-        {
-            //TODO: Implement death
-        }
-
         if (m_OnHealthChange != null)
         {
             m_OnHealthChange(m_health, m_maxHealth);
         }
-    }
 
-    /// <summary>
-    /// Gets the current health.
-    /// </summary>
-    /// <returns></returns>
-    public int GetCurrentHealth()
-    {
-        return m_health;
+        if (IsDead && m_OnDead != null)
+        {
+            m_OnDead();
+        }
     }
 }

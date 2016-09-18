@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseAi : MonoBehaviour
 {
     [SerializeField]
-    private BaseCharacter m_characterToControl;
+    protected BaseCharacter m_characterToControl;
 
     [SerializeField]
-    private List<ThreatElement> m_currentThreatList = new List<ThreatElement>();
+    private readonly List<ThreatElement> m_currentThreatList = new List<ThreatElement>();
 
     [Serializable]
     private class ThreatElement
     {
         public int m_CurrentThreatWithThisAi;
-        public BaseCharacter m_BaseCharacter;
+        public readonly BaseCharacter m_BaseCharacter;
 
         public ThreatElement(BaseCharacter baseCharacter, int currentThreatWithThisAi)
         {
@@ -24,10 +25,65 @@ public class BaseAi : MonoBehaviour
     }
 
     private ThreatElement m_currentTarget;
+    protected float m_CastingBlockedUntil = 0f;
 
-    void Start()
+    protected void Start()
     {
         AttackClosestTarget();
+
+        StartCoroutine(AiLoop());
+    }
+
+    /// <summary>
+    /// This gets called everytime the ai can decides to something.
+    /// Normally scripts override this method.
+    /// </summary>
+    protected virtual void AiStep()
+    {
+        CheckForDeadCharactersInThreatList();
+    }
+
+    /// <summary>
+    /// The ai loop.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator AiLoop()
+    {
+        while (true)
+        {
+            if (m_characterToControl.m_StatManagement.IsDead)
+            {
+                yield break;
+            }
+
+            AiStep();
+
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Checks for dead characters in threat list.
+    /// </summary>
+    private void CheckForDeadCharactersInThreatList()
+    {
+        if (m_currentThreatList.Count > 0)
+        {
+            bool currentTargetIsDead = false;
+            if (m_currentTarget != null && m_currentTarget.m_BaseCharacter.m_StatManagement.IsDead)
+            {
+                m_currentTarget = null;
+                currentTargetIsDead = true;
+            }
+
+            int removedThreatElements = m_currentThreatList.RemoveAll(
+                threatElement => threatElement.m_BaseCharacter.m_StatManagement.IsDead);
+
+            if (currentTargetIsDead || removedThreatElements > 0)
+            {
+                UpdateThreatList();
+            }
+        }
     }
 
     /// <summary>
@@ -42,12 +98,16 @@ public class BaseAi : MonoBehaviour
         {
             ChangeThreat(targetToAttack, 1);
         }
+        else
+        {
+            m_characterToControl.StopInteraction();
+        }
     }
 
     /// <summary>
     /// Resorts the threat list.
     /// </summary>
-    private void ResortThreatList()
+    private void ReSortThreatList()
     {
         m_currentThreatList.Sort((threatElement1, threatElement2) =>
                 threatElement2.m_CurrentThreatWithThisAi.CompareTo(threatElement1.m_CurrentThreatWithThisAi));
@@ -58,7 +118,7 @@ public class BaseAi : MonoBehaviour
     /// </summary>
     public void ChangeThreat(BaseCharacter causer, int threatChange)
     {
-        ThreatElement existingThreatElement = m_currentThreatList.Find(threatElement => 
+        ThreatElement existingThreatElement = m_currentThreatList.Find(threatElement =>
             threatElement.m_BaseCharacter.m_CharacterId == causer.m_CharacterId);
 
         if (existingThreatElement != null)
@@ -67,13 +127,21 @@ public class BaseAi : MonoBehaviour
         }
         else
         {
-            // One cannot decrease threat, with no threat registered. No preemptive threat reduction.
+            // One cannot decrease threat, with no threat registered. No preemptive threat reduction!
             m_currentThreatList.Add(new ThreatElement(causer, Math.Max(0, threatChange)));
         }
 
-        if (m_currentThreatList.Count > 1)
+        UpdateThreatList();
+    }
+
+    /// <summary>
+    /// Updates the threat list.
+    /// </summary>
+    private void UpdateThreatList()
+    {
+        if (m_currentThreatList.Count > 0)
         {
-            ResortThreatList();
+            ReSortThreatList();
 
             ThreatElement newTarget = null;
 
@@ -85,23 +153,34 @@ public class BaseAi : MonoBehaviour
         }
         else
         {
-            m_currentTarget = m_currentThreatList[0];
-            m_characterToControl.OnInteraction(m_currentTarget.m_BaseCharacter);
+            AttackClosestTarget();
         }
     }
 
     /// <summary>
-    /// Determines whether the current target has highest threat.
+    /// Determines whether the Ai should switch to a new target, based on the current threatlist.
     /// </summary>
     /// <param name="newTarget">The new target.</param>
     /// <returns></returns>
     private bool TargetChangeNecessary(out ThreatElement newTarget)
     {
-        if (m_currentThreatList.Count > 1 && !string.Equals(m_currentThreatList[0].m_BaseCharacter.m_CharacterId, m_currentTarget.m_BaseCharacter.m_CharacterId) &&
-            m_currentThreatList[0].m_CurrentThreatWithThisAi > (m_currentTarget.m_CurrentThreatWithThisAi * BaseBalancing.m_TargetChangeByThreatDifference))
+        if (m_currentThreatList.Count > 0)
         {
-            newTarget = m_currentThreatList[0];
-            return true;
+            //TODO: Use InteractionTarget here?
+            bool currentTargetFirstInThreatList = m_currentTarget != null &&
+                                                  string.Equals(m_currentThreatList[0].m_BaseCharacter.m_CharacterId,
+                                                      m_currentTarget.m_BaseCharacter.m_CharacterId);
+
+            bool highestElementInThreatListReachedAggroLimit = m_currentTarget == null ||
+                                                               (m_currentThreatList[0].m_CurrentThreatWithThisAi*
+                                                                BaseBalancing.m_TargetChangeByThreatDifference) >
+                                                               m_currentTarget.m_CurrentThreatWithThisAi;
+
+            if (!currentTargetFirstInThreatList && highestElementInThreatListReachedAggroLimit)
+            {
+                newTarget = m_currentThreatList[0];
+                return true;
+            }
         }
 
         newTarget = null;

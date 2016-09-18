@@ -16,12 +16,13 @@ public class HealerCharacter : BaseRangeCharacter
         {
             InteractionTarget.Mage,
             InteractionTarget.Rogue,
-            InteractionTarget.Tank
+            InteractionTarget.Tank,
+            InteractionTarget.Heal
         };
 
         m_MovementSpeed = BaseBalancing.m_HealerMovementSpeed;
 
-        m_AutoInteractionCD = BaseBalancing.m_HealerAutoHealCd;
+        m_AutoInteractionCd = BaseBalancing.m_HealerAutoHealCd;
         m_AutoInteractionMaxRange = BaseBalancing.m_HealerAutoHealMaxRange;
         m_TimeSinceLastAutoInteraction = BaseBalancing.m_HealerAutoHealCd;
 

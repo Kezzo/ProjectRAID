@@ -2,10 +2,7 @@
 
 public class BaseMeeleCharacter : BaseCharacter
 {
-    [Header("BaseMeele")]
-
-    [SerializeField]
-    private Animator m_animator;
+    //[Header("BaseMeele")]
 
     protected override void OnAutoInteractionTriggered(BaseCharacter targetToInteractWith)
     {

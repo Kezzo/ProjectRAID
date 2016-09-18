@@ -22,7 +22,7 @@ public class TankCharacter : BaseMeeleCharacter
 
         m_MovementSpeed = BaseBalancing.m_TankMovementSpeed;
 
-        m_AutoInteractionCD = BaseBalancing.m_TankAutoAttackCd;
+        m_AutoInteractionCd = BaseBalancing.m_TankAutoAttackCd;
         m_AutoInteractionMaxRange = BaseBalancing.m_TankAutoAttackMaxRange;
 
         m_StatManagement.Initialize(BaseBalancing.m_TankBaseMaxHealth);

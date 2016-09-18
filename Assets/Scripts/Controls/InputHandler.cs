@@ -22,6 +22,12 @@ public class InputHandler : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (m_currentlySelectedCharacter != null && m_currentlySelectedCharacter.m_StatManagement.IsDead)
+        {
+            m_currentlySelectedCharacter = null;
+            m_selectionMarker.SetActive(false);
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit selectionTarget;
@@ -31,17 +37,18 @@ public class InputHandler : MonoBehaviour
                 GameObject selectionGameObject = selectionTarget.collider.gameObject;
                 BaseCharacter baseCharacter = selectionGameObject.transform.parent.GetComponent<BaseCharacter>();
 
-                if (baseCharacter != null)
+                if (baseCharacter != null && !baseCharacter.m_StatManagement.IsDead)
                 {
                     m_currentlySelectedCharacter = baseCharacter;
                     baseCharacter.OnSelected();
+
+                    m_selectionMarker.SetActive(true);
+
+                    m_selectionMarker.transform.SetParent(selectionGameObject.transform);
+                    m_selectionMarker.transform.localPosition = Vector3.zero;
+                    m_selectionMarker.transform.localScale = Vector3.one;
                 }
 
-                m_selectionMarker.SetActive(true);
-
-                m_selectionMarker.transform.SetParent(selectionGameObject.transform);
-                m_selectionMarker.transform.localPosition = Vector3.zero;
-                m_selectionMarker.transform.localScale = Vector3.one;
                 //m_selectionMarker.transform.position = new Vector3(selectionGameObject.transform.position.x,
                 //    m_selectionMarker.transform.position.y, selectionGameObject.transform.position.z);
             }
@@ -59,7 +66,7 @@ public class InputHandler : MonoBehaviour
                 {
                     BaseCharacter baseCharacter = selectionHit.transform.parent.gameObject.GetComponent<BaseCharacter>();
 
-                    if (baseCharacter != null)
+                    if (baseCharacter != null && !baseCharacter.m_StatManagement.IsDead)
                     {
                         m_currentlySelectedCharacter.OnInteraction(baseCharacter);
                     }
