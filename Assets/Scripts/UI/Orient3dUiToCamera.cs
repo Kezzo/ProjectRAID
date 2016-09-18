@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 [ExecuteInEditMode]
 public class Orient3dUiToCamera : MonoBehaviour
