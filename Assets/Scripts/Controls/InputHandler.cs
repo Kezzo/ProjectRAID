@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
@@ -20,9 +22,17 @@ public class InputHandler : MonoBehaviour
     [SerializeField]
     private GameObject m_selectionPositionMarker;
 
-    private BaseCharacter m_currentlySelectedCharacter;
+    [Serializable]
+    private class KeyBindAssignment
+    {
+        public KeyCode m_KeyCode;
+        public BaseCharacter m_CharacterToSelect;
+    }
 
-    public bool m_holdingLeftMouseButtonDown = false;
+    [SerializeField]
+    private List<KeyBindAssignment> m_keyBindAssignments;
+
+    private BaseCharacter m_currentlySelectedCharacter;
 
     // Update is called once per frame
     private void Update()
@@ -32,26 +42,29 @@ public class InputHandler : MonoBehaviour
             ResetSelection();
         }
 
-        if (!Input.GetMouseButton(0))
+        for (int keyBindAssignmentIndex = 0; keyBindAssignmentIndex < m_keyBindAssignments.Count; keyBindAssignmentIndex++)
         {
-            if (m_currentlySelectedCharacter != null && m_holdingLeftMouseButtonDown)
+            if (Input.GetKeyDown(m_keyBindAssignments[keyBindAssignmentIndex].m_KeyCode))
             {
-                InteractWithCharacterOrWorldAtMousePosition();
-                ResetSelection();
-            }
-        }
-        else if(m_holdingLeftMouseButtonDown)
-        {
-            RaycastHit selectionHit;
-            if (TrySelection(m_camera, m_worldLayerMask, out selectionHit))
-            {
-                m_selectionPositionMarker.transform.position = new Vector3(selectionHit.point.x, m_selectionPositionMarker.transform.position.y, selectionHit.point.z);
+                BaseCharacter baseCharacter = m_keyBindAssignments[keyBindAssignmentIndex].m_CharacterToSelect;
+
+                if (baseCharacter != null && !baseCharacter.m_StatManagement.IsDead)
+                {
+                    m_currentlySelectedCharacter = baseCharacter;
+                    baseCharacter.OnSelected();
+
+                    m_selectionMarker.SetActive(true);
+
+                    m_selectionMarker.transform.SetParent(baseCharacter.transform);
+                    m_selectionMarker.transform.localPosition = Vector3.zero;
+                    m_selectionMarker.transform.localScale = Vector3.one;
+                }
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (m_currentlySelectedCharacter != null && Input.GetMouseButtonDown(1))
         {
-            SelectCharacterAtMousePosition();
+            InteractWithCharacterOrWorldAtMousePosition();
         }
     }
 
@@ -62,39 +75,6 @@ public class InputHandler : MonoBehaviour
     {
         m_currentlySelectedCharacter = null;
         m_selectionMarker.SetActive(false);
-
-        m_holdingLeftMouseButtonDown = false;
-        m_selectionPositionMarker.SetActive(false);
-    }
-
-    /// <summary>
-    /// Selects the character at mouse position.
-    /// </summary>
-    private void SelectCharacterAtMousePosition()
-    {
-        RaycastHit selectionTarget;
-
-        if (TrySelection(m_camera, m_characterLayerMask, out selectionTarget))
-        {
-            GameObject selectionGameObject = selectionTarget.collider.gameObject;
-            BaseCharacter baseCharacter = selectionGameObject.transform.parent.GetComponent<BaseCharacter>();
-
-            if (baseCharacter != null && !baseCharacter.m_StatManagement.IsDead)
-            {
-                m_currentlySelectedCharacter = baseCharacter;
-                baseCharacter.OnSelected();
-
-                m_selectionMarker.SetActive(true);
-
-                m_selectionMarker.transform.SetParent(selectionGameObject.transform);
-                m_selectionMarker.transform.localPosition = Vector3.zero;
-                m_selectionMarker.transform.localScale = Vector3.one;
-
-                m_selectionPositionMarker.SetActive(true);
-
-                m_holdingLeftMouseButtonDown = true;
-            }
-        }
     }
 
     /// <summary>
