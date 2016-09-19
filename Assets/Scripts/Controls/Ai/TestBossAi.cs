@@ -22,8 +22,44 @@ public class TestBossAi : BaseAi
         if (m_CastingBlockedUntil > Time.time)
             return;
 
-        if (CheckAndCastSkill1())
+        if (CastBloodPoolProjectile())
             return;
+        //if (CheckAndCastSkill1())
+        //    return;
+    }
+
+    /// <summary>
+    /// Casts the blood pool skill.
+    /// </summary>
+    /// <returns></returns>
+    private bool CastBloodPoolProjectile()
+    {
+        if (!(m_lastSkill1CastTime + BaseBalancing.TestBossSkill1.m_Cooldown < Time.time))
+        {
+            return false;
+        }
+
+        m_lastSkill1CastTime = Time.time;
+
+        List<BaseCharacter> possbileTargets = ControllerContainer.TargetingController.GetCharactersWithInteractionTarget(BaseBalancing.TestBossSkill1.m_PossibleTargets);
+
+        int randomElement = Random.Range(0, possbileTargets.Count - 1);
+        BaseCharacter characterToTarget = possbileTargets[randomElement];
+
+        GameObject projectileGameobject = Instantiate(m_skill1ProjectilePrefab, m_skill1ProjectileStartPosition.position, Quaternion.identity) as GameObject;
+
+        if (projectileGameobject != null)
+        {
+            BaseProjectile projectileScript = projectileGameobject.GetComponent<BaseProjectile>();
+
+            if (projectileScript != null)
+            {
+                projectileScript.InitializeBalancingParameter();
+                projectileScript.FlyTowardsTarget(characterToTarget, m_characterToControl);
+            }
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -33,37 +69,37 @@ public class TestBossAi : BaseAi
     /// <returns></returns>
     private bool CheckAndCastSkill1()
     {
-        if (m_lastSkill1CastTime + BaseBalancing.m_TestBossSkill1Cd < Time.time)
+        if (!(m_lastSkill1CastTime + BaseBalancing.TestBossSkill1.m_Cooldown < Time.time))
         {
-            m_lastSkill1CastTime = Time.time;
-
-            List<BaseCharacter> charactersToCastSkillOn = ControllerContainer.TargetingController.GetCharactersWithInteractionTarget(new HashSet<InteractionTarget>
-            {
-                InteractionTarget.Tank,
-                InteractionTarget.Heal,
-                InteractionTarget.Mage,
-                InteractionTarget.Rogue
-            });
-
-            for (int characterIndex = 0; characterIndex < charactersToCastSkillOn.Count; characterIndex++)
-            {
-                GameObject projectileGameobject = Instantiate(m_skill1ProjectilePrefab, m_skill1ProjectileStartPosition.position, Quaternion.identity) as GameObject;
-
-                if (projectileGameobject != null)
-                {
-                    BaseProjectile projectileScript = projectileGameobject.GetComponent<BaseProjectile>();
-
-                    if (projectileScript != null)
-                    {
-                        projectileScript.InitializeBalancingParameter();
-                        projectileScript.FlyTowardsTarget(charactersToCastSkillOn[characterIndex], m_characterToControl);
-                    }
-                }
-            }
-
-            return true;
+            return false;
         }
 
-        return false;
+        m_lastSkill1CastTime = Time.time;
+
+        List<BaseCharacter> charactersToCastSkillOn = ControllerContainer.TargetingController.GetCharactersWithInteractionTarget(new HashSet<InteractionTarget>
+        {
+            InteractionTarget.Tank,
+            InteractionTarget.Heal,
+            InteractionTarget.Mage,
+            InteractionTarget.Rogue
+        });
+
+        for (int characterIndex = 0; characterIndex < charactersToCastSkillOn.Count; characterIndex++)
+        {
+            GameObject projectileGameobject = Instantiate(m_skill1ProjectilePrefab, m_skill1ProjectileStartPosition.position, Quaternion.identity) as GameObject;
+
+            if (projectileGameobject != null)
+            {
+                BaseProjectile projectileScript = projectileGameobject.GetComponent<BaseProjectile>();
+
+                if (projectileScript != null)
+                {
+                    projectileScript.InitializeBalancingParameter();
+                    projectileScript.FlyTowardsTarget(charactersToCastSkillOn[characterIndex], m_characterToControl);
+                }
+            }
+        }
+
+        return true;
     }
 }

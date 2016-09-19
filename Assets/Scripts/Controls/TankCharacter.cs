@@ -11,8 +11,8 @@ public class TankCharacter : BaseMeeleCharacter
 
         m_CharacterId = "TankCharacter";
 
-        //m_AutoInteractionCD = BaseBalancing.m_MageAutoAttackCd;
-        //m_TimeSinceLastAutoInteraction = BaseBalancing.m_MageAutoAttackCd;
+        //m_AutoInteractionCD = BaseBalancing.m_AutoAttackCd;
+        //m_TimeSinceLastAutoInteraction = BaseBalancing.m_AutoAttackCd;
         m_InteractionTarget = InteractionTarget.Tank;
         m_PossibleInteractionTargets = new HashSet<InteractionTarget>
         {
@@ -20,12 +20,12 @@ public class TankCharacter : BaseMeeleCharacter
             InteractionTarget.Add
         };
 
-        m_MovementSpeed = BaseBalancing.m_TankMovementSpeed;
+        m_MovementSpeed = BaseBalancing.Tank.m_MovementSpeed;
 
-        m_AutoInteractionCd = BaseBalancing.m_TankAutoAttackCd;
-        m_AutoInteractionMaxRange = BaseBalancing.m_TankAutoAttackMaxRange;
+        m_AutoInteractionCd = BaseBalancing.Tank.m_AutoAttackCd;
+        m_AutoInteractionMaxRange = BaseBalancing.Tank.m_AutoAttackMaxRange;
 
-        m_StatManagement.Initialize(BaseBalancing.m_TankBaseMaxHealth);
+        m_StatManagement.Initialize(BaseBalancing.Tank.m_BaseMaxHealth);
     }
 
     /// <summary>
@@ -36,13 +36,13 @@ public class TankCharacter : BaseMeeleCharacter
     {
         base.OnAutoInteractionTriggered(targetToInteractWith);
          
-        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.m_TankAutoAttackDamage);
+        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.Tank.m_AutoAttackDamage);
 
         BaseAi targetAi = targetToInteractWith.GetComponent<BaseAi>();
 
         if (targetAi != null)
         {
-            targetAi.ChangeThreat(this, (int)(BaseBalancing.m_TankAutoAttackDamage*BaseBalancing.m_TankAutoAttackThreatModifier));
+            targetAi.ChangeThreat(this, (int)(BaseBalancing.Tank.m_AutoAttackDamage*BaseBalancing.Tank.m_AutoAttackThreatModifier));
         }
     }
 }

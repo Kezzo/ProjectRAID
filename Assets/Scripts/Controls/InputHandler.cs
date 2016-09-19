@@ -44,21 +44,23 @@ public class InputHandler : MonoBehaviour
 
         for (int keyBindAssignmentIndex = 0; keyBindAssignmentIndex < m_keyBindAssignments.Count; keyBindAssignmentIndex++)
         {
-            if (Input.GetKeyDown(m_keyBindAssignments[keyBindAssignmentIndex].m_KeyCode))
+            if (!Input.GetKeyDown(m_keyBindAssignments[keyBindAssignmentIndex].m_KeyCode))
             {
-                BaseCharacter baseCharacter = m_keyBindAssignments[keyBindAssignmentIndex].m_CharacterToSelect;
+                continue;
+            }
 
-                if (baseCharacter != null && !baseCharacter.m_StatManagement.IsDead)
-                {
-                    m_currentlySelectedCharacter = baseCharacter;
-                    baseCharacter.OnSelected();
+            BaseCharacter baseCharacter = m_keyBindAssignments[keyBindAssignmentIndex].m_CharacterToSelect;
 
-                    m_selectionMarker.SetActive(true);
+            if (baseCharacter != null && !baseCharacter.m_StatManagement.IsDead)
+            {
+                m_currentlySelectedCharacter = baseCharacter;
+                baseCharacter.OnSelected();
 
-                    m_selectionMarker.transform.SetParent(baseCharacter.transform);
-                    m_selectionMarker.transform.localPosition = Vector3.zero;
-                    m_selectionMarker.transform.localScale = Vector3.one;
-                }
+                m_selectionMarker.SetActive(true);
+
+                m_selectionMarker.transform.SetParent(baseCharacter.transform);
+                m_selectionMarker.transform.localPosition = Vector3.zero;
+                m_selectionMarker.transform.localScale = Vector3.one;
             }
         }
 

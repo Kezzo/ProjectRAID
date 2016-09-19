@@ -75,9 +75,13 @@
     <Compile Include="Assets\Scripts\Controls\RogueCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\TankCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\TestBossCharacter.cs" />
+    <Compile Include="Assets\Scripts\CoroutineHelper.cs" />
+    <Compile Include="Assets\Scripts\Root.cs" />
     <Compile Include="Assets\Scripts\Skills\AutoHealProjectile.cs" />
+    <Compile Include="Assets\Scripts\Skills\BaseAreaEffect.cs" />
     <Compile Include="Assets\Scripts\Skills\BaseProjectile.cs" />
     <Compile Include="Assets\Scripts\Skills\MageAutoAttackProjectile.cs" />
+    <Compile Include="Assets\Scripts\Skills\TestBoss\TestBossSkill1BloodPool.cs" />
     <Compile Include="Assets\Scripts\Skills\TestBoss\TestBossSkill1Projectile.cs" />
     <Compile Include="Assets\Scripts\StatManagement\BaseBalancing.cs" />
     <Compile Include="Assets\Scripts\StatManagement\BaseStatManagement.cs" />

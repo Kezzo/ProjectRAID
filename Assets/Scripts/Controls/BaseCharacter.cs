@@ -227,7 +227,7 @@ public class BaseCharacter : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves to.
+    /// Moves to a specific character.
     /// </summary>
     /// <param name="characterToMoveTo">The character to move to.</param>
     /// <param name="targetReachedMinDistance">The target reached minimum distance. If -1, will follow target forever.</param>

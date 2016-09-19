@@ -20,12 +20,12 @@ public class HealerCharacter : BaseRangeCharacter
             InteractionTarget.Heal
         };
 
-        m_MovementSpeed = BaseBalancing.m_HealerMovementSpeed;
+        m_MovementSpeed = BaseBalancing.Healer.m_MovementSpeed;
 
-        m_AutoInteractionCd = BaseBalancing.m_HealerAutoHealCd;
-        m_AutoInteractionMaxRange = BaseBalancing.m_HealerAutoHealMaxRange;
-        m_TimeSinceLastAutoInteraction = BaseBalancing.m_HealerAutoHealCd;
+        m_AutoInteractionCd = BaseBalancing.Healer.m_AutoHealCd;
+        m_AutoInteractionMaxRange = BaseBalancing.Healer.m_AutoHealMaxRange;
+        m_TimeSinceLastAutoInteraction = BaseBalancing.Healer.m_AutoHealCd;
 
-        m_StatManagement.Initialize(BaseBalancing.m_HealerBaseMaxHealth);
+        m_StatManagement.Initialize(BaseBalancing.Healer.m_BaseMaxHealth);
     }
 }

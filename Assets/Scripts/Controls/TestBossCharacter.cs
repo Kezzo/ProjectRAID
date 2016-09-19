@@ -20,12 +20,12 @@ public class TestBossCharacter : BaseMeeleCharacter
             InteractionTarget.Heal
         };
 
-        m_MovementSpeed = BaseBalancing.m_EnemyMovementSpeed;
+        m_MovementSpeed = BaseBalancing.GeneralEnemy.m_EnemyMovementSpeed;
 
-        m_AutoInteractionCd = BaseBalancing.m_TestBossAutoAttackCd;
-        m_AutoInteractionMaxRange = BaseBalancing.m_TestBossAutoAttackMaxRange;
+        m_AutoInteractionCd = BaseBalancing.TestBoss.m_AutoAttackCd;
+        m_AutoInteractionMaxRange = BaseBalancing.TestBoss.m_AutoAttackMaxRange;
 
-        m_StatManagement.Initialize(BaseBalancing.m_TestBossBaseMaxHealth);
+        m_StatManagement.Initialize(BaseBalancing.TestBoss.m_BaseMaxHealth);
     }
 
     /// <summary>
@@ -36,6 +36,6 @@ public class TestBossCharacter : BaseMeeleCharacter
     {
         base.OnAutoInteractionTriggered(targetToInteractWith);
 
-        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.m_TestBossAutoAttackDamage);
+        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.TestBoss.m_AutoAttackDamage);
     }
 }

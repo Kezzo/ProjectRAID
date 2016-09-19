@@ -11,8 +11,8 @@ public class RogueCharacter : BaseMeeleCharacter
 
         m_CharacterId = "RogueCharacter";
 
-        //m_AutoInteractionCD = BaseBalancing.m_MageAutoAttackCd;
-        //m_TimeSinceLastAutoInteraction = BaseBalancing.m_MageAutoAttackCd;
+        //m_AutoInteractionCD = BaseBalancing.m_AutoAttackCd;
+        //m_TimeSinceLastAutoInteraction = BaseBalancing.m_AutoAttackCd;
         m_InteractionTarget = InteractionTarget.Rogue;
         m_PossibleInteractionTargets = new HashSet<InteractionTarget>
         {
@@ -20,12 +20,12 @@ public class RogueCharacter : BaseMeeleCharacter
             InteractionTarget.Add
         };
 
-        m_MovementSpeed = BaseBalancing.m_RogueMovementSpeed;
+        m_MovementSpeed = BaseBalancing.Rogue.m_MovementSpeed;
 
-        m_AutoInteractionCd = BaseBalancing.m_RogueAutoAttackCd;
-        m_AutoInteractionMaxRange = BaseBalancing.m_RogueAutoAttackMaxRange;
+        m_AutoInteractionCd = BaseBalancing.Rogue.m_AutoAttackCd;
+        m_AutoInteractionMaxRange = BaseBalancing.Rogue.m_AutoAttackMaxRange;
 
-        m_StatManagement.Initialize(BaseBalancing.m_RogueBaseMaxHealth);
+        m_StatManagement.Initialize(BaseBalancing.Rogue.m_BaseMaxHealth);
     }
 
     /// <summary>
@@ -36,13 +36,13 @@ public class RogueCharacter : BaseMeeleCharacter
     {
         base.OnAutoInteractionTriggered(targetToInteractWith);
 
-        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.m_RogueAutoAttackDamage);
+        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.Rogue.m_AutoAttackDamage);
 
         BaseAi targetAi = targetToInteractWith.GetComponent<BaseAi>();
 
         if (targetAi != null)
         {
-            targetAi.ChangeThreat(this, (int)(BaseBalancing.m_RogueAutoAttackDamage * BaseBalancing.m_RogueAutoAttackThreatModifier));
+            targetAi.ChangeThreat(this, (int)(BaseBalancing.Rogue.m_AutoAttackDamage * BaseBalancing.Rogue.m_AutoAttackThreatModifier));
         }
     }
 }

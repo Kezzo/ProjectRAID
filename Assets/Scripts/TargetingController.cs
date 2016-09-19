@@ -65,6 +65,29 @@ public class TargetingController
     }
 
     /// <summary>
+    /// Gets all characters in a circle area.
+    /// </summary>
+    /// <param name="basePosition">The base position.</param>
+    /// <param name="circleRange">The circle range.</param>
+    /// <param name="validInteractionTargets">The valid interaction targets.</param>
+    /// <returns></returns>
+    public List<BaseCharacter> GetAllCharactersInCircleArea(Vector3 basePosition, float circleRange, HashSet<InteractionTarget> validInteractionTargets)
+    {
+        List<BaseCharacter> validTargets = GetCharactersWithInteractionTarget(validInteractionTargets);
+        List<BaseCharacter> targetsInRange = new List<BaseCharacter>();
+
+        for (int characterIndex = 0; characterIndex < validTargets.Count; characterIndex++)
+        {
+            if (Vector3.Distance(basePosition, validTargets[characterIndex].transform.position) <= circleRange)
+            {
+                targetsInRange.Add(validTargets[characterIndex]);
+            }
+        }
+
+        return targetsInRange;
+    }
+
+    /// <summary>
     /// Gets the closest character.
     /// </summary>
     /// <param name="askingCharacter">The asking character.</param>

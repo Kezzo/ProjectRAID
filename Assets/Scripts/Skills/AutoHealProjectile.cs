@@ -9,8 +9,8 @@ public class AutoHealProjectile : BaseProjectile
     {
         base.InitializeBalancingParameter();
 
-        m_MinHitDistance = BaseBalancing.m_HealerAutoHealCollisionDistance;
-        m_ProjectileSpeed = BaseBalancing.m_HealerAutoHealProjectileSpeed;
+        m_MinHitDistance = BaseBalancing.Healer.m_AutoHealCollisionDistance;
+        m_ProjectileSpeed = BaseBalancing.Healer.m_AutoHealProjectileSpeed;
     }
 
     /// <summary>
@@ -22,7 +22,7 @@ public class AutoHealProjectile : BaseProjectile
         base.OnTargetHit(hitTargetCharacter);
 
         Destroy(this.gameObject);
-        hitTargetCharacter.m_StatManagement.ChangeHealth(BaseBalancing.m_HealerAutoHealValue);
+        hitTargetCharacter.m_StatManagement.ChangeHealth(BaseBalancing.Healer.m_AutoHealValue);
 
         var threatTargets = ControllerContainer.TargetingController.GetCharactersWithInteractionTarget(new HashSet<InteractionTarget>
         {
@@ -36,7 +36,7 @@ public class AutoHealProjectile : BaseProjectile
 
             if (targetAi != null)
             {
-                targetAi.ChangeThreat(ProjectileCaster, (int)(BaseBalancing.m_HealerAutoHealValue * BaseBalancing.m_HealerAutoHealThreatModifier));
+                targetAi.ChangeThreat(ProjectileCaster, (int)(BaseBalancing.Healer.m_AutoHealValue * BaseBalancing.Healer.m_AutoHealThreatModifier));
             }
         }
     }

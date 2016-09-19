@@ -7,8 +7,8 @@
     {
         base.InitializeBalancingParameter();
 
-        m_MinHitDistance = BaseBalancing.m_MageAutoAttackCollisionDistance;
-        m_ProjectileSpeed = BaseBalancing.m_MageAutoAttackProjectileSpeed;
+        m_MinHitDistance = BaseBalancing.Mage.m_AutoAttackCollisionDistance;
+        m_ProjectileSpeed = BaseBalancing.Mage.m_AutoAttackProjectileSpeed;
     }
 
     /// <summary>
@@ -20,13 +20,13 @@
         base.OnTargetHit(hitTargetCharacter);
 
         Destroy(this.gameObject);
-        hitTargetCharacter.m_StatManagement.ChangeHealth(-BaseBalancing.m_MageAutoAttackProjectileDamage);
+        hitTargetCharacter.m_StatManagement.ChangeHealth(-BaseBalancing.Mage.m_AutoAttackProjectileDamage);
 
         BaseAi targetAi = hitTargetCharacter.GetComponent<BaseAi>();
 
         if (targetAi != null)
         {
-            targetAi.ChangeThreat(ProjectileCaster, (int)(BaseBalancing.m_MageAutoAttackProjectileDamage * BaseBalancing.m_MageAutoAttackProjectileThreatModifier));
+            targetAi.ChangeThreat(ProjectileCaster, (int)(BaseBalancing.Mage.m_AutoAttackProjectileDamage * BaseBalancing.Mage.m_AutoAttackProjectileThreatModifier));
         }
     }
 }

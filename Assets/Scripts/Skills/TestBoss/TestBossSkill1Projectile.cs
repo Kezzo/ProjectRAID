@@ -1,5 +1,10 @@
-﻿public class TestBossSkill1Projectile : BaseProjectile
+﻿using UnityEngine;
+
+public class TestBossSkill1Projectile : BaseProjectile
 {
+    [SerializeField]
+    private GameObject m_bloodPoolPrefab;
+
     /// <summary>
     /// Initializes the parameters.
     /// </summary>
@@ -7,8 +12,8 @@
     {
         base.InitializeBalancingParameter();
 
-        m_MinHitDistance = BaseBalancing.m_TestBossSkill1CollisionDistance;
-        m_ProjectileSpeed = BaseBalancing.m_TestBossSkill1ProjectileSpeed;
+        m_MinHitDistance = BaseBalancing.TestBossSkill1.m_CollisionDistance;
+        m_ProjectileSpeed = BaseBalancing.TestBossSkill1.m_BossSkill1ProjectileSpeed;
     }
 
     /// <summary>
@@ -18,8 +23,21 @@
     protected override void OnTargetHit(BaseCharacter hitTargetCharacter)
     {
         base.OnTargetHit(hitTargetCharacter);
+        
+        //hitTargetCharacter.m_StatManagement.ChangeHealth(-BaseBalancing.m_Damage);
+        GameObject projectileGameobject = Instantiate(m_bloodPoolPrefab, this.transform.position, Quaternion.identity) as GameObject;
+
+        if (projectileGameobject != null)
+        {
+            BaseAreaEffect areaEffectScript = projectileGameobject.GetComponent<BaseAreaEffect>();
+
+            if (areaEffectScript != null)
+            {
+                areaEffectScript.InitializeBalancingParameter();
+                areaEffectScript.StartAreaEffect();
+            }
+        }
 
         Destroy(this.gameObject);
-        hitTargetCharacter.m_StatManagement.ChangeHealth(-BaseBalancing.m_TestBossSkill1Damage);
     }
 }
