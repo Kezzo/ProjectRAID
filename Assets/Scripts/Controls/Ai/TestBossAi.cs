@@ -43,6 +43,11 @@ public class TestBossAi : BaseAi
 
         List<BaseCharacter> possbileTargets = ControllerContainer.TargetingController.GetCharactersWithInteractionTarget(BaseBalancing.TestBossSkill1.m_PossibleTargets);
 
+        if(possbileTargets == null || possbileTargets.Count == 0)
+        {
+            return false;
+        }
+
         int randomElement = Random.Range(0, possbileTargets.Count - 1);
         BaseCharacter characterToTarget = possbileTargets[randomElement];
 

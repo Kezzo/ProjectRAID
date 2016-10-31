@@ -1,0 +1,21 @@
+Realtime
+
++ Direct reaction to enemy skills (reaction-based)
++ Rarely seen in the play store
++ Can be more epic in feeling, if situation was handled well or shit goes down
+
+- Direct targeting in action can feel iffy
+- Finger can be over ongoing action
+- A lot of micro management with the healer
+- Hard situations are hard, because they're stressful
+
+Turn-based
+
++ No chaos on the screen and easier to display a clear playing field on mobile
++ No auto attacks and therefore clear actions (only base and special skills) more readable
++ No weird positioning/targeting
++ 
+
+Realtime with Pause (Command Phase)
+
++ 
