@@ -28,6 +28,11 @@ public class BaseCasterCharacter : BaseRangeCharacter
             return;
         }
 
+        if (m_animator != null)
+        {
+            m_animator.SetBool("Casting", true);
+        }
+
         CurrentCasting = new CurrentCastingInfo
         {
             m_IsCasting = true,
@@ -41,6 +46,11 @@ public class BaseCasterCharacter : BaseRangeCharacter
         {
             StopCasting();
 
+            if (m_animator != null)
+            {
+                m_animator.SetTrigger("Fire");
+            }
+
             base.OnAutoInteractionTriggered(targetToInteractWith);
         });
     }
@@ -53,6 +63,11 @@ public class BaseCasterCharacter : BaseRangeCharacter
         base.StopInteraction();
 
         StopCasting();
+
+        if (m_animator != null)
+        {
+            m_animator.SetBool("Casting", false);
+        }
     }
 
     /// <summary>
