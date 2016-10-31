@@ -70,7 +70,7 @@
     <Compile Include="Assets\Scripts\Controls\BaseMeeleCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\BaseRangeCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\HealerCharacter.cs" />
-    <Compile Include="Assets\Scripts\Controls\InputHandler.cs" />
+    <Compile Include="Assets\Scripts\Controls\InputHandler\InputHandlerKeyboard.cs" />
     <Compile Include="Assets\Scripts\Controls\MageCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\RogueCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\TankCharacter.cs" />

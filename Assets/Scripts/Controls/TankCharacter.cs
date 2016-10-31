@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TankCharacter : BaseMeeleCharacter
 {
@@ -25,24 +26,27 @@ public class TankCharacter : BaseMeeleCharacter
         m_AutoInteractionCd = BaseBalancing.Tank.m_AutoAttackCd;
         m_AutoInteractionMaxRange = BaseBalancing.Tank.m_AutoAttackMaxRange;
 
+        m_AutoAttackDamage = BaseBalancing.Tank.m_AutoAttackDamage;
+
         m_StatManagement.Initialize(BaseBalancing.Tank.m_BaseMaxHealth);
     }
 
     /// <summary>
-    /// Called when an automatic interaction was triggered.
+    /// Called when an automatic attack hit.
     /// </summary>
-    /// <param name="targetToInteractWith">The target to interact with.</param>
-    protected override void OnAutoInteractionTriggered(BaseCharacter targetToInteractWith)
+    protected override void OnAutoAttackHit()
     {
-        base.OnAutoInteractionTriggered(targetToInteractWith);
-         
-        targetToInteractWith.m_StatManagement.ChangeHealth(-BaseBalancing.Tank.m_AutoAttackDamage);
+        base.OnAutoAttackHit();
+        
+        Debug.Log(string.Format("OnAutoAttackHit called on: '{0}'", this.name));
 
-        BaseAi targetAi = targetToInteractWith.GetComponent<BaseAi>();
+        m_lastAutoAttackTarget.m_StatManagement.ChangeHealth(-m_AutoAttackDamage);
+
+        BaseAi targetAi = m_lastAutoAttackTarget.GetComponent<BaseAi>();
 
         if (targetAi != null)
         {
-            targetAi.ChangeThreat(this, (int)(BaseBalancing.Tank.m_AutoAttackDamage*BaseBalancing.Tank.m_AutoAttackThreatModifier));
+            targetAi.ChangeThreat(this, (int)(m_AutoAttackDamage * BaseBalancing.Tank.m_AutoAttackThreatModifier));
         }
     }
 }

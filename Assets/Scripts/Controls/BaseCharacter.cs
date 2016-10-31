@@ -48,11 +48,18 @@ public class BaseCharacter : MonoBehaviour
     protected float m_AutoInteractionMaxRange;
     protected float m_AutoInteractionCd;
 
+    protected int m_AutoAttackDamage;
+
     void Awake()
     {
         InitializeBalancingParameter();
 
         ControllerContainer.TargetingController.RegisterInTargetCache(this);
+
+        if (m_animator != null)
+        {
+            m_animator.logWarnings = false;
+        }
     }
 
     void Start()
@@ -75,8 +82,9 @@ public class BaseCharacter : MonoBehaviour
         if (m_animator != null)
         {
             //TODO: Play death animation here.
-            m_animator.enabled = false;
-            m_animator.enabled = true;
+            //m_animator.enabled = false;
+            //m_animator.enabled = true;
+            m_animator.SetTrigger("Death");
         } 
     }
 
@@ -193,6 +201,11 @@ public class BaseCharacter : MonoBehaviour
             {
                 //Debug.Log(string.Format("Target '{0}' from '{1}' ran out of Range", targetToInteractWith.name, this.name));
 
+                if (m_animator != null)
+                {
+                    m_animator.SetBool("Attack", false);
+                }
+
                 MoveTo(targetToInteractWith, autoInteractionMaxRange,
                     () => StartAutoInteraction(targetToInteractWith));
             }
@@ -252,6 +265,11 @@ public class BaseCharacter : MonoBehaviour
     /// </summary>
     private void StopMovement()
     {
+        if (m_animator != null)
+        {
+            m_animator.SetBool("Walk", false);
+        }
+
         if (m_currentMovementCoroutine != null)
         {
             StopCoroutine(m_currentMovementCoroutine);
@@ -267,12 +285,19 @@ public class BaseCharacter : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MovementCoroutine(Vector3 movementTarget, float targetReachedMinDistance, Action onTargetReached = null)
     {
+        if (m_animator != null)
+        {
+            m_animator.SetBool("Walk", true);
+        }
+
         while (true)
         {
             bool reachedTarget = DoMovementStep(movementTarget, targetReachedMinDistance, onTargetReached);
 
             if (reachedTarget || m_StatManagement.IsDead)
             {
+                StopMovement();
+
                 yield break;
             }
 
@@ -289,12 +314,19 @@ public class BaseCharacter : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MovementCoroutine(BaseCharacter characterToFollow, float targetReachedMinDistance, Action onTargetReached = null)
     {
+        if (m_animator != null)
+        {
+            m_animator.SetBool("Walk", true);
+        }
+
         while (true)
         {
             bool reachedTarget = DoMovementStep(characterToFollow.transform.position, targetReachedMinDistance, onTargetReached);
 
             if (reachedTarget || m_StatManagement.IsDead || characterToFollow.m_StatManagement.IsDead)
             {
+                StopMovement();
+
                 yield break;
             }
 

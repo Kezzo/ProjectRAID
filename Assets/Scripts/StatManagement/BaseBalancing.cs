@@ -16,7 +16,7 @@ public static class BaseBalancing
         public static float m_AutoAttackMaxRange = 5f;
 
         public static int m_AutoAttackDamage = 2;
-        public static float m_AutoAttackThreatModifier = 3.0f;
+        public static float m_AutoAttackThreatModifier = 6.0f;
 
         public static int m_BaseMaxHealth = 100;
     }
@@ -88,7 +88,7 @@ public static class BaseBalancing
     public struct TestBoss
     {
         public static float m_AutoAttackCd = 1f;
-        public static float m_AutoAttackMaxRange = 5f;
+        public static float m_AutoAttackMaxRange = 6f;
 
         public static int m_AutoAttackDamage = 10;
 
@@ -100,13 +100,13 @@ public static class BaseBalancing
     public struct TestBossSkill1
     {
         public static int m_Damage = 25;
-        public static float m_Cooldown = 7f;
+        public static float m_Cooldown = 5f;
 
         public static float m_CollisionDistance = 0.5f;
         public static float m_BossSkill1ProjectileSpeed = 20f;
 
         public static float m_EffectRange = 1.5f;
-        public static float m_EffectActivationDelay = 3f;
+        public static float m_EffectActivationDelay = 1.5f;
 
         public static HashSet<InteractionTarget> m_PossibleTargets = new HashSet<InteractionTarget>
         {
