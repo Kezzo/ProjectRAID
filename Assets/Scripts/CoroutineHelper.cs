@@ -9,11 +9,13 @@ public class CoroutineHelper : MonoBehaviour
     /// <summary>
     /// Call the given callback delayed.
     /// </summary>
+    /// <param name="source">The source.</param>
     /// <param name="timeInSecToDelayCall">The time in sec to delay call.</param>
     /// <param name="onDelayOverCallback">The on delay over callback.</param>
-    public void CallDelayed(float timeInSecToDelayCall, Action onDelayOverCallback)
+    /// <returns></returns>
+    public Coroutine CallDelayed(MonoBehaviour source, float timeInSecToDelayCall, Action onDelayOverCallback)
     {
-        StartCoroutine(CallDelayedCoroutine(timeInSecToDelayCall, onDelayOverCallback));
+        return source.StartCoroutine(CallDelayedCoroutine(timeInSecToDelayCall, onDelayOverCallback));
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class HealerCharacter : BaseRangeCharacter
+public class HealerCharacter : BaseCasterCharacter
 {
     /// <summary>
     /// Initializes the balancing parameter.

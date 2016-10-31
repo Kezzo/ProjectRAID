@@ -9,13 +9,13 @@ public class BaseAi : MonoBehaviour
     protected BaseCharacter m_characterToControl;
 
     [SerializeField]
-    private readonly List<ThreatElement> m_currentThreatList = new List<ThreatElement>();
+    private List<ThreatElement> m_currentThreatList = new List<ThreatElement>();
 
     [Serializable]
     private class ThreatElement
     {
         public int m_CurrentThreatWithThisAi;
-        public readonly BaseCharacter m_BaseCharacter;
+        public BaseCharacter m_BaseCharacter;
 
         public ThreatElement(BaseCharacter baseCharacter, int currentThreatWithThisAi)
         {
@@ -167,14 +167,12 @@ public class BaseAi : MonoBehaviour
         if (m_currentThreatList.Count > 0)
         {
             //TODO: Use InteractionTarget here?
-            bool currentTargetFirstInThreatList = m_currentTarget != null &&
-                                                  string.Equals(m_currentThreatList[0].m_BaseCharacter.m_CharacterId,
-                                                      m_currentTarget.m_BaseCharacter.m_CharacterId);
+            bool currentTargetFirstInThreatList = m_currentTarget != null && 
+                string.Equals(m_currentThreatList[0].m_BaseCharacter.m_CharacterId, m_currentTarget.m_BaseCharacter.m_CharacterId);
 
-            bool highestElementInThreatListReachedAggroLimit = m_currentTarget == null ||
-                                                               (m_currentThreatList[0].m_CurrentThreatWithThisAi*
-                                                                BaseBalancing.m_TargetChangeByThreatDifference) >
-                                                               m_currentTarget.m_CurrentThreatWithThisAi;
+            bool highestElementInThreatListReachedAggroLimit = m_currentTarget == null || 
+                m_currentThreatList[0].m_CurrentThreatWithThisAi > (m_currentTarget.m_CurrentThreatWithThisAi *
+                                                                BaseBalancing.m_TargetChangeByThreatDifference);
 
             if (!currentTargetFirstInThreatList && highestElementInThreatListReachedAggroLimit)
             {

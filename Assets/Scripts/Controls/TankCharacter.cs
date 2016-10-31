@@ -38,7 +38,7 @@ public class TankCharacter : BaseMeeleCharacter
     {
         base.OnAutoAttackHit();
         
-        Debug.Log(string.Format("OnAutoAttackHit called on: '{0}'", this.name));
+        //Debug.Log(string.Format("OnAutoAttackHit called on: '{0}'", this.name));
 
         m_lastAutoAttackTarget.m_StatManagement.ChangeHealth(-m_AutoAttackDamage);
 

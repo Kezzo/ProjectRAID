@@ -81,9 +81,6 @@ public class BaseCharacter : MonoBehaviour
 
         if (m_animator != null)
         {
-            //TODO: Play death animation here.
-            //m_animator.enabled = false;
-            //m_animator.enabled = true;
             m_animator.SetTrigger("Death");
         } 
     }
@@ -147,7 +144,7 @@ public class BaseCharacter : MonoBehaviour
     /// <summary>
     /// Stops the interaction.
     /// </summary>
-    public void StopInteraction()
+    public virtual void StopInteraction()
     {
         if (m_CurrentInteractionCoroutine != null)
         {

@@ -90,7 +90,7 @@ public static class BaseBalancing
         public static float m_AutoAttackCd = 1f;
         public static float m_AutoAttackMaxRange = 6f;
 
-        public static int m_AutoAttackDamage = 10;
+        public static int m_AutoAttackDamage = 30;
 
         public static int m_BaseMaxHealth = 1000;
     }

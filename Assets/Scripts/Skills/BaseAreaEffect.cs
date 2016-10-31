@@ -22,7 +22,7 @@ public class BaseAreaEffect : MonoBehaviour
     /// </summary>
     public void StartAreaEffect()
     {
-        Root.Instance.CoroutineHelper.CallDelayed(m_EffectActivationDelay, () =>
+        Root.Instance.CoroutineHelper.CallDelayed(this, m_EffectActivationDelay, () =>
         {
             //TODO: Improve effect range based on visuals
             var enemiesToDamage = ControllerContainer.TargetingController.GetAllCharactersInCircleArea(this.transform.position, m_EffectRange,

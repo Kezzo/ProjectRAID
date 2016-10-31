@@ -5,10 +5,10 @@ public class BaseRangeCharacter : BaseCharacter
     [Header("BaseRange")]
 
     [SerializeField]
-    private Transform m_autoInteractionProjectileStartPosition;
+    protected Transform m_autoInteractionProjectileStartPosition;
 
     [SerializeField]
-    private GameObject m_autoInteractionProjectilePrefab;
+    protected GameObject m_autoInteractionProjectilePrefab;
 
     /// <summary>
     /// Called when the automatic interaction happened.

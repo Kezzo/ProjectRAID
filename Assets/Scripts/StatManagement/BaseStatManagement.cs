@@ -7,7 +7,7 @@ public class BaseStatManagement : MonoBehaviour
     private int m_health;
     public int Health { get { return m_health; } }
 
-    public bool IsDead { get { return m_health <= 0; } }
+    public bool IsDead { get { return m_health == 0; } }
 
     private int m_maxHealth = 0;
 
@@ -31,6 +31,11 @@ public class BaseStatManagement : MonoBehaviour
     /// <param name="value">The value.</param>
     public virtual void ChangeHealth(int value)
     {
+        if (IsDead)
+        {
+            return;
+        }
+
         m_health += value;
 
         m_health = Mathf.Clamp(m_health, 0, m_maxHealth);

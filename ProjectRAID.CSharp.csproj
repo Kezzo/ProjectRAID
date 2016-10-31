@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\ControllerContainer.cs" />
     <Compile Include="Assets\Scripts\Controls\Ai\BaseAi.cs" />
     <Compile Include="Assets\Scripts\Controls\Ai\TestBossAi.cs" />
+    <Compile Include="Assets\Scripts\Controls\BaseCasterCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\BaseCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\BaseMeeleCharacter.cs" />
     <Compile Include="Assets\Scripts\Controls\BaseRangeCharacter.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Assets\Scripts\StatManagement\BaseStatManagement.cs" />
     <Compile Include="Assets\Scripts\TargetingController.cs" />
     <Compile Include="Assets\Scripts\UI\Orient3dUiToCamera.cs" />
+    <Compile Include="Assets\Scripts\UI\UpdateCastBar.cs" />
     <Compile Include="Assets\Scripts\UI\UpdateHealthBar.cs" />
   </ItemGroup>
   <ItemGroup>

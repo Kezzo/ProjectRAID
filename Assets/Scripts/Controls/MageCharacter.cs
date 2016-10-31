@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class MageCharacter : BaseRangeCharacter
+public class MageCharacter : BaseCasterCharacter
 {
     /// <summary>
     /// Initializes the balancing parameter.
