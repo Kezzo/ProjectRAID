@@ -15,6 +15,8 @@ public class BaseCasterCharacter : BaseRangeCharacter
 
     private Coroutine m_currentCastingCoroutine;
 
+    protected float m_AutoInteractionAnimationSpeed;
+
     /// <summary>
     /// Called when the automatic interaction happened.
     /// </summary>
@@ -31,6 +33,7 @@ public class BaseCasterCharacter : BaseRangeCharacter
         if (m_animator != null)
         {
             m_animator.SetBool("Casting", true);
+            m_animator.SetFloat("CastingSpeed", m_AutoInteractionAnimationSpeed);
         }
 
         CurrentCasting = new CurrentCastingInfo
@@ -67,6 +70,11 @@ public class BaseCasterCharacter : BaseRangeCharacter
         if (m_animator != null)
         {
             m_animator.SetBool("Casting", false);
+        }
+
+        if (m_animator != null)
+        {
+            m_animator.SetBool("Fire", false);
         }
     }
 

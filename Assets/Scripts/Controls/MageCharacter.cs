@@ -21,6 +21,8 @@ public class MageCharacter : BaseCasterCharacter
         m_MovementSpeed = BaseBalancing.Mage.m_MovementSpeed;
 
         m_AutoInteractionCd = BaseBalancing.Mage.m_AutoAttackCd;
+        m_AutoInteractionAnimationSpeed = BaseBalancing.Mage.m_AutoAttackAnimationSpeed;
+
         m_AutoInteractionMaxRange = BaseBalancing.Mage.m_AutoAttackMaxRange;
         m_TimeSinceLastAutoInteraction = BaseBalancing.Mage.m_AutoAttackCd;
 

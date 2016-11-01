@@ -23,6 +23,8 @@ public class HealerCharacter : BaseCasterCharacter
         m_MovementSpeed = BaseBalancing.Healer.m_MovementSpeed;
 
         m_AutoInteractionCd = BaseBalancing.Healer.m_AutoHealCd;
+        m_AutoInteractionAnimationSpeed = BaseBalancing.Healer.m_AutoAttackAnimationSpeed;
+
         m_AutoInteractionMaxRange = BaseBalancing.Healer.m_AutoHealMaxRange;
         m_TimeSinceLastAutoInteraction = BaseBalancing.Healer.m_AutoHealCd;
 

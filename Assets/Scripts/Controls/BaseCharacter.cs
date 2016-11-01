@@ -82,7 +82,7 @@ public class BaseCharacter : MonoBehaviour
         if (m_animator != null)
         {
             m_animator.SetTrigger("Death");
-        } 
+        }
     }
 
     /// <summary>
@@ -174,10 +174,7 @@ public class BaseCharacter : MonoBehaviour
         {
             if (m_StatManagement.IsDead || targetToInteractWith.m_StatManagement.IsDead)
             {
-                if (m_animator != null)
-                {
-                    m_animator.SetBool("Attack", false);
-                }
+                StopInteraction();
 
                 yield break;
             }
@@ -197,11 +194,6 @@ public class BaseCharacter : MonoBehaviour
             else
             {
                 //Debug.Log(string.Format("Target '{0}' from '{1}' ran out of Range", targetToInteractWith.name, this.name));
-
-                if (m_animator != null)
-                {
-                    m_animator.SetBool("Attack", false);
-                }
 
                 MoveTo(targetToInteractWith, autoInteractionMaxRange,
                     () => StartAutoInteraction(targetToInteractWith));
@@ -373,7 +365,7 @@ public class BaseCharacter : MonoBehaviour
         if (this.transform.position == postitionToLookAt)
             return;
 
-        transform.rotation = Quaternion.LookRotation((new Vector3(postitionToLookAt.x, 0f, postitionToLookAt.z) - 
+        transform.rotation = Quaternion.LookRotation((new Vector3(postitionToLookAt.x, 0f, postitionToLookAt.z) -
             (new Vector3(transform.position.x, 0f, transform.position.z))).normalized);
     }
 }

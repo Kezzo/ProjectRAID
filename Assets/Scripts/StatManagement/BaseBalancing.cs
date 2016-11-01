@@ -29,7 +29,7 @@ public static class BaseBalancing
     {
         public static float m_MovementSpeed = 10f;
         public static float m_AutoAttackCd = 0.5f;
-        public static float m_AutoAttackMaxRange = 5f;
+        public static float m_AutoAttackMaxRange = 3f;
 
         public static int m_AutoAttackDamage = 5;
         public static float m_AutoAttackThreatModifier = 1.0f;
@@ -46,6 +46,8 @@ public static class BaseBalancing
         public static float m_MovementSpeed = 5f;
 
         public static float m_AutoHealCd = 0.5f;
+        public static float m_AutoAttackAnimationSpeed = 2f;
+
         public static float m_AutoHealMaxRange = 10f;
         public static float m_AutoHealCollisionDistance = 0.5f;
         public static float m_AutoHealProjectileSpeed = 15f;
@@ -64,6 +66,8 @@ public static class BaseBalancing
     {
         public static float m_MovementSpeed = 5f;
         public static float m_AutoAttackCd = 1f;
+        public static float m_AutoAttackAnimationSpeed = 1f;
+
         public static float m_AutoAttackMaxRange = 17f;
         public static float m_AutoAttackCollisionDistance = 0.5f;
         public static float m_AutoAttackProjectileSpeed = 20f;

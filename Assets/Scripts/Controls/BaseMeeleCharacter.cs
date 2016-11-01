@@ -34,4 +34,11 @@ public class BaseMeeleCharacter : BaseCharacter
             Debug.LogError("OnAutoAttackHit called without a valid target");
         }
     }
+
+    public override void StopInteraction()
+    {
+        base.StopInteraction();
+
+        m_animator.SetBool("Attack", false);
+    }
 }
