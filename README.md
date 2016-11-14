@@ -4,7 +4,7 @@ Ever played dungeons in an MMORPG? Nice! Now you can play the tank, healer and t
 
 ![gif](gameplay.gif)
 
-![screenshot](http://puu.sh/sipPz/033707ac78.jpg)
+![screenshot](http://puu.sh/sishw/1392cf1e0f.jpg)
 
 
 
